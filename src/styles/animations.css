@@ -1,0 +1,131 @@
+/* Base animations and transitions */
+:root {
+  --transition-quick: 200ms;
+  --transition-standard: 300ms;
+  --transition-page: 500ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mobile-optimized animations */
+@keyframes fade-transform {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: fade-transform 0.3s var(--ease-standard) forwards;
+}
+
+.fade-enter {
+  opacity: 0;
+  transform: translate3d(0, 15px, 0);
+  will-change: transform, opacity;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: opacity var(--transition-standard) var(--ease-standard),
+              transform var(--transition-standard) var(--ease-standard);
+}
+
+/* Optimized skeleton loading */
+.skeleton {
+  background: linear-gradient(90deg, rgba(190, 190, 190, 0.2) 25%, rgba(129, 129, 129, 0.24) 37%, rgba(190, 190, 190, 0.2) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+.progressive-load {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: progressive-reveal 0.4s var(--ease-standard) forwards;
+}
+
+@keyframes progressive-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Touch-friendly animations */
+@media (hover: none) {
+  .stagger-children > * {
+    opacity: 1;
+    animation: none;
+  }
+  
+  .hover-scale {
+    transform: none !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.active-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: theme('colors.indigo.600');
+  transform-origin: left;
+  animation: scale-in 0.3s var(--ease-standard) forwards;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+  }
+  
+  a {
+    text-decoration: underline;
+    color: #000;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+  
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+  
+  table, figure {
+    page-break-inside: avoid;
+  }
+}
