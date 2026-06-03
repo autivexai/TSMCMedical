@@ -1,450 +1,283 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Stethoscope, MessageSquare, ArrowRight, Award, Shield, Users, ChevronLeft, ChevronRight } from 'lucide-react';
-import { ProgressiveImage } from '../components/ProgressiveImage';
-import { products } from '../data/products';
+import {
+  MessageSquare,
+  ArrowRight,
+  Award,
+  Phone,
+  Mail,
+  Microscope,
+  FlaskConical,
+  Activity,
+} from 'lucide-react';
+import { BRAND } from '../data/brand';
+import { featuredClients } from '../data/clients';
+import { products, productCategories } from '../data/products';
+
+const proofMetrics = [
+  { value: '10,000+', label: 'Diagnostic tests performed monthly' },
+  { value: '13+ Years', label: 'Of trusted partnership' },
+  { value: '95%+', label: 'Client satisfaction rate' },
+  { value: '3 Islands', label: 'Nationwide coverage' },
+] as const;
+
+const categoryIcons: Record<string, React.ElementType> = {
+  Diagnostic: Microscope,
+  'Diabetes Care': Activity,
+  Laboratory: FlaskConical,
+};
+
+const featuredQuote = {
+  text: 'Since implementing our point-of-care testing solutions, healthcare facilities across the Philippines have dramatically reduced patient wait times while improving diagnostic accuracy.',
+  impact: 'Faster Results, Better Care',
+};
 
 const Home = () => {
-  const [currentSlide, setCurrentSlide] = React.useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = React.useState(true);
-  const [impactSlide, setImpactSlide] = React.useState(0);
-  const [isImpactAutoPlaying, setIsImpactAutoPlaying] = React.useState(true);
+  const previewProducts = products.slice(0, 3);
 
-  // Get first 6 products for carousel
-  const carouselProducts = products.slice(0, 6);
-
-  // Clinical Impact Stories
-  const impactStories = [
-    {
-      image: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKy2BJBkNwZEpRsMUj5qXLae318nQHPTmYrhdl',
-      metric: '10,000+',
-      metricLabel: 'Diagnostic Tests Performed Monthly',
-      testimonial: 'Since implementing our point-of-care testing solutions, healthcare facilities across the Philippines have dramatically reduced patient wait times while improving diagnostic accuracy.',
-      impact: 'Faster Results, Better Care'
-    },
-    {
-      image: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKt3AtC9KS9GUMC3KB5IlJoirhTYROxj4EQL7W',
-      metric: '13+ Years',
-      metricLabel: 'Of Trusted Partnership',
-      testimonial: 'Our long-term partnerships with healthcare institutions demonstrate our commitment to reliability, quality, and continuous support. We grow alongside our clients, adapting to their evolving needs.',
-      impact: 'Proven Track Record'
-    },
-    {
-      image: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKMm0ATDoXp96Eu3lD1bFUhPcd8SAj2VMKf7os',
-      metric: '95%+',
-      metricLabel: 'Client Satisfaction Rate',
-      testimonial: 'Healthcare professionals trust our solutions because we deliver more than equipment—we provide comprehensive training, responsive support, and genuine partnership every step of the way.',
-      impact: 'Excellence in Service'
-    },
-    {
-      image: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKHfWkTj9K17E9sMxUtcbXNFwf3gL6QR58WJhT',
-      metric: '3 Islands',
-      metricLabel: 'Nationwide Coverage',
-      testimonial: 'From Luzon to Mindanao, our dedicated teams ensure that quality healthcare solutions reach every corner of the Philippines. No facility is too remote for our commitment to excellence.',
-      impact: 'Accessibility for All'
-    }
-  ];
-
-  // Auto-play functionality for products
-  React.useEffect(() => {
-    if (!isAutoPlaying) return;
-
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % carouselProducts.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, carouselProducts.length]);
-
-  // Auto-play functionality for impact stories
-  React.useEffect(() => {
-    if (!isImpactAutoPlaying) return;
-
-    const interval = setInterval(() => {
-      setImpactSlide((prev) => (prev + 1) % impactStories.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [isImpactAutoPlaying, impactStories.length]);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % carouselProducts.length);
-    setIsAutoPlaying(false);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + carouselProducts.length) % carouselProducts.length);
-    setIsAutoPlaying(false);
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-    setIsAutoPlaying(false);
-  };
-
-  const nextImpactSlide = () => {
-    setImpactSlide((prev) => (prev + 1) % impactStories.length);
-    setIsImpactAutoPlaying(false);
-  };
-
-  const prevImpactSlide = () => {
-    setImpactSlide((prev) => (prev - 1 + impactStories.length) % impactStories.length);
-    setIsImpactAutoPlaying(false);
-  };
-
-  const goToImpactSlide = (index: number) => {
-    setImpactSlide(index);
-    setIsImpactAutoPlaying(false);
-  };
+  const categoryCounts = productCategories.reduce<Record<string, number>>((acc, cat) => {
+    acc[cat] = products.filter((p) => p.category === cat).length;
+    return acc;
+  }, {});
 
   return (
     <div className="bg-gray-50">
-      {/* Hero Section */}
-      <div className="relative bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32">
-            <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 lg:mt-16 lg:px-8 xl:mt-28">
-              <div className="text-center progressive-load">
-                <img
-                  src="https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzK70xwvWBSNsqOeLk5coblmpRAZg4t8K6yrT1X"
-                  alt="TSMC Logo"
-                  className="h-24 sm:h-32 md:h-36 lg:h-40 w-auto mx-auto mb-6 object-scale-down transition-all duration-300 hover:scale-105 border-2 border-indigo-600 rounded-md"
-                  width="160"
-                  height="160"
-                />
-                <h1 className="text-3xl sm:text-4xl tracking-tight font-extrabold text-gray-900 md:text-5xl lg:text-6xl">
-                  <span className="block text-indigo-600">TwinJ3 Sales and Marketing Corp.</span>
-                </h1>
-                <p className="mt-3 max-w-md mx-auto text-sm sm:text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                  Your trusted partner in medical equipment and supplies for healthcare professionals.
-                </p>
-                <div className="mt-8 flex justify-center gap-4">
-                  <Link 
-                    to="/tsmc" 
-                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300"
-                  >
-                    View Our Products
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300"
-                  >
-                    <MessageSquare className="mr-2 h-5 w-5" />
-                    Contact Us
-                  </Link>
-                </div>
-              </div>
-            </main>
-          </div>
+      {/* Hero */}
+      <section className="relative bg-white overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <img
+            src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&q=80&w=1600"
+            alt=""
+            className="w-full h-full object-cover"
+            width={1600}
+            height={900}
+            fetchPriority="high"
+            aria-hidden
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-white via-white/95 to-white" />
         </div>
-      </div>
-
-      {/* Product Carousel */}
-      <div className="bg-gray-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-gray-900">Featured Products</h2>
-            <p className="mt-4 text-xl text-gray-600">Discover our advanced medical equipment and diagnostic solutions</p>
-          </div>
-          
-          <div className="relative">
-            {/* Carousel Container */}
-            <div className="relative overflow-hidden rounded-2xl bg-white shadow-2xl">
-              <div 
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-              >
-                {carouselProducts.map((product, index) => (
-                  <div key={product.id} className="w-full flex-shrink-0">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
-                      {/* Product Image */}
-                      <div className="relative bg-gradient-to-br from-indigo-50 to-blue-50 flex items-center justify-center p-8">
-                        <div className="relative w-full max-w-md">
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-80 object-contain rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300"
-                          />
-                          <div className="absolute -top-4 -right-4 bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-                            {product.category}
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Product Info */}
-                      <div className="flex flex-col justify-center p-8 lg:p-12">
-                        <div className="max-w-lg">
-                          <h3 className="text-3xl font-bold text-gray-900 mb-4 leading-tight">
-                            {product.name}
-                          </h3>
-                          <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                            {product.description}
-                          </p>
-                          
-                          {/* Key Features */}
-                          {product.features && product.features.length > 0 && (
-                            <div className="mb-8">
-                              <h4 className="text-lg font-semibold text-gray-900 mb-3">Key Features:</h4>
-                              <ul className="space-y-2">
-                                {product.features.slice(0, 3).map((feature, featureIndex) => (
-                                  <li key={featureIndex} className="flex items-start">
-                                    <div className="w-2 h-2 bg-indigo-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                    <span className="text-gray-700 text-sm">{feature}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                          
-                          <div className="flex flex-col sm:flex-row gap-4">
-                            <Link
-                              to={`/tsmc/products/${product.slug}`}
-                              className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 shadow-lg hover:shadow-xl"
-                            >
-                              Learn More
-                              <ArrowRight className="ml-2 h-5 w-5" />
-                            </Link>
-                            <Link
-                              to="/contact?service=medical"
-                              className="inline-flex items-center justify-center px-6 py-3 border-2 border-indigo-600 text-base font-medium rounded-lg text-indigo-600 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300"
-                            >
-                              <MessageSquare className="mr-2 h-5 w-5" />
-                              Get Quote
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Navigation Arrows */}
-            <button
-              onClick={prevSlide}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 z-10"
-              aria-label="Previous product"
-            >
-              <ChevronLeft className="h-6 w-6 text-gray-800" />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 z-10"
-              aria-label="Next product"
-            >
-              <ChevronRight className="h-6 w-6 text-gray-800" />
-            </button>
-            
-            {/* Dots Indicator */}
-            <div className="flex justify-center mt-8 space-x-3">
-              {carouselProducts.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide 
-                      ? 'bg-indigo-600 scale-125' 
-                      : 'bg-gray-300 hover:bg-gray-400'
-                  }`}
-                  aria-label={`Go to product ${index + 1}`}
-                />
-              ))}
-            </div>
-            
-            {/* View All Products Link */}
-            <div className="text-center mt-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+          <div className="text-center progressive-load max-w-3xl mx-auto">
+            <img
+              src={BRAND.logoUrl}
+              alt={`${BRAND.tradeName} logo`}
+              className="h-20 sm:h-28 w-auto mx-auto mb-6 object-contain"
+              width={160}
+              height={160}
+            />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
+              <span className="block text-indigo-600">{BRAND.tradeName}</span>
+            </h1>
+            <p className="mt-2 text-sm sm:text-base font-medium text-gray-600">
+              {BRAND.heroSubline}
+            </p>
+            <p className="mt-4 text-base sm:text-lg text-gray-500">{BRAND.tagline}</p>
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
               <Link
                 to="/tsmc"
-                className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-semibold text-lg transition-colors duration-300"
+                className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               >
-                View All Products
-                <ArrowRight className="ml-2 h-5 w-5" />
+                View Our Products
+                <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+              >
+                <MessageSquare className="mr-2 h-5 w-5" aria-hidden />
+                Contact Us
               </Link>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Clinical Impact Section */}
-      <div className="bg-white py-16">
+      {/* Proof strip — static, scannable */}
+      <section className="bg-indigo-600 py-12" aria-labelledby="proof-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-gray-900">Proven Clinical Impact</h2>
-            <p className="mt-4 text-xl text-gray-600">Real results from healthcare partnerships across the Philippines</p>
-          </div>
-
-          <div className="relative">
-            {/* Carousel Container */}
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 to-blue-50 shadow-2xl">
-              <div
-                className="flex transition-transform duration-700 ease-in-out"
-                style={{ transform: `translateX(-${impactSlide * 100}%)` }}
-              >
-                {impactStories.map((story, index) => (
-                  <div key={index} className="w-full flex-shrink-0">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
-                      {/* Image Section */}
-                      <div className="relative overflow-hidden">
-                        <img
-                          src={story.image}
-                          alt={story.impact}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/60 to-transparent"></div>
-                        <div className="absolute bottom-8 left-8 right-8">
-                          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-6 shadow-xl">
-                            <div className="text-4xl font-bold text-indigo-600 mb-2">{story.metric}</div>
-                            <div className="text-sm font-semibold text-gray-700 uppercase tracking-wide">{story.metricLabel}</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Content Section */}
-                      <div className="flex flex-col justify-center p-8 lg:p-12">
-                        <div className="max-w-lg">
-                          <div className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-full text-sm font-semibold mb-6">
-                            <Award className="h-4 w-4 mr-2" />
-                            {story.impact}
-                          </div>
-
-                          <blockquote className="text-xl text-gray-800 leading-relaxed mb-8 italic">
-                            "{story.testimonial}"
-                          </blockquote>
-
-                          <div className="flex items-center space-x-4">
-                            <div className="flex-shrink-0">
-                              <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center">
-                                <Shield className="h-6 w-6 text-white" />
-                              </div>
-                            </div>
-                            <div>
-                              <div className="font-semibold text-gray-900">Healthcare Partner</div>
-                              <div className="text-sm text-gray-600">Leading Medical Institution</div>
-                            </div>
-                          </div>
-
-                          <div className="mt-8 pt-8 border-t border-gray-200">
-                            <Link
-                              to="/about"
-                              className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-semibold transition-colors duration-300"
-                            >
-                              Learn More About Our Impact
-                              <ArrowRight className="ml-2 h-5 w-5" />
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+          <h2 id="proof-heading" className="sr-only">
+            Our impact at a glance
+          </h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {proofMetrics.map((item) => (
+              <div key={item.label} className="text-center text-white">
+                <div className="text-2xl sm:text-3xl font-bold">{item.value}</div>
+                <div className="mt-1 text-sm sm:text-base text-indigo-100">{item.label}</div>
               </div>
-            </div>
-
-            {/* Navigation Arrows */}
-            <button
-              onClick={prevImpactSlide}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 z-10"
-              aria-label="Previous story"
-            >
-              <ChevronLeft className="h-6 w-6 text-gray-800" />
-            </button>
-            <button
-              onClick={nextImpactSlide}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 z-10"
-              aria-label="Next story"
-            >
-              <ChevronRight className="h-6 w-6 text-gray-800" />
-            </button>
-
-            {/* Dots Indicator */}
-            <div className="flex justify-center mt-8 space-x-3">
-              {impactStories.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToImpactSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === impactSlide
-                      ? 'bg-indigo-600 scale-125'
-                      : 'bg-gray-300 hover:bg-gray-400'
-                  }`}
-                  aria-label={`Go to story ${index + 1}`}
-                />
-              ))}
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Features Section */}
-      <div className="bg-gray-50 py-16">
+      {/* Category entry */}
+      <section className="py-16" aria-labelledby="categories-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-gray-900">Why Choose TSMC Medical Supply?</h2>
-            <p className="mt-4 text-xl text-gray-600">Trusted by healthcare professionals nationwide</p>
+          <div className="text-center mb-10">
+            <h2 id="categories-heading" className="text-3xl font-extrabold text-gray-900">
+              Browse by category
+            </h2>
+            <p className="mt-3 text-lg text-gray-600">
+              Explore our catalog of medical equipment and diagnostic solutions
+            </p>
           </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {productCategories.map((category) => {
+              const Icon = categoryIcons[category] ?? Microscope;
+              return (
+                <Link
+                  key={category}
+                  to={`/tsmc?category=${encodeURIComponent(category)}`}
+                  className="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:border-indigo-300 hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <Icon
+                    className="h-10 w-10 text-indigo-600 mb-4 group-hover:scale-105 transition-transform"
+                    aria-hidden
+                  />
+                  <h3 className="text-xl font-semibold text-gray-900">{category}</h3>
+                  <p className="mt-2 text-gray-600 text-sm">
+                    {categoryCounts[category]} product{categoryCounts[category] !== 1 ? 's' : ''}
+                  </p>
+                  <span className="mt-4 inline-flex items-center text-indigo-600 font-medium text-sm">
+                    View products
+                    <ArrowRight className="ml-1 h-4 w-4" aria-hidden />
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
+      {/* Featured products — static grid, no carousel */}
+      <section className="bg-white py-16" aria-labelledby="featured-heading">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 id="featured-heading" className="text-3xl font-extrabold text-gray-900">
+              Featured products
+            </h2>
+            <p className="mt-3 text-lg text-gray-600">
+              A selection from our medical equipment catalog
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <Stethoscope className="h-12 w-12 text-indigo-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Quality Equipment</h3>
-              <p className="text-gray-600">State-of-the-art medical equipment from trusted manufacturers worldwide.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <Shield className="h-12 w-12 text-indigo-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Certified Products</h3>
-              <p className="text-gray-600">All products meet or exceed industry standards and certifications.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <Users className="h-12 w-12 text-indigo-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Expert Support</h3>
-              <p className="text-gray-600">Dedicated technical support and training for all our products.</p>
-            </div>
+            {previewProducts.map((product) => (
+              <article
+                key={product.id}
+                className="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden flex flex-col"
+              >
+                <div className="h-48 bg-gradient-to-br from-indigo-50 to-blue-50 flex items-center justify-center p-4">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="max-h-full max-w-full object-contain"
+                    width={320}
+                    height={192}
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <span className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">
+                    {product.category}
+                  </span>
+                  <h3 className="mt-2 text-lg font-bold text-gray-900">{product.name}</h3>
+                  <p className="mt-2 text-sm text-gray-600 line-clamp-3 flex-grow">
+                    {product.description}
+                  </p>
+                  <Link
+                    to={`/tsmc/products/${product.slug}`}
+                    className="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium text-sm"
+                  >
+                    Learn more
+                    <ArrowRight className="ml-1 h-4 w-4" aria-hidden />
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link
+              to="/tsmc"
+              className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-semibold text-lg"
+            >
+              View all products
+              <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Featured Clients Section */}
-      <div className="bg-gray-50 py-16">
+      {/* Trust — one quote + logos */}
+      <section className="py-16 bg-gray-50" aria-labelledby="trust-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-gray-900">Our Featured Clients</h2>
-            <p className="mt-4 text-xl text-gray-600">Trusted by leading healthcare institutions</p>
+          <div className="text-center mb-10">
+            <h2 id="trust-heading" className="text-3xl font-extrabold text-gray-900">
+              Trusted across the Philippines
+            </h2>
           </div>
+          <blockquote className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-gray-200 p-8 text-center">
+            <div className="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-semibold mb-4">
+              <Award className="h-4 w-4 mr-2" aria-hidden />
+              {featuredQuote.impact}
+            </div>
+            <p className="text-lg text-gray-700 italic leading-relaxed">&ldquo;{featuredQuote.text}&rdquo;</p>
+            <footer className="mt-4 text-sm text-gray-500">
+              — Healthcare partners nationwide
+            </footer>
+          </blockquote>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center">
-            {[
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKBiHwwwG0RprZaE2csh7WNi9UelLJkbYy3XHt', name: 'Client 1' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKteO0HNKS9GUMC3KB5IlJoirhTYROxj4EQL7W', name: 'Client 2' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKHF2zXU9K17E9sMxUtcbXNFwf3gL6QR58WJhT', name: 'Client 3' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzK2j9V3BzOKEmAGgquJTfLUawhvDzeWIsp7d5F', name: 'Client 4' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKq8TkPVdoFG4DTcYmfVvX3ClS8JLZbMhBknrI', name: 'Client 5' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKyUBYwPNwZEpRsMUj5qXLae318nQHPTmYrhdl', name: 'Client 6' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKoDr2TeMYbCqy8PWAm4dn10VT2XMBzrw6vLZh', name: 'Client 7' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzK3rWQZoIIEPbBu5VMyegXxTf6QdKl4W2vL7RA', name: 'Client 8' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKQfk7JEU8OqpB458JKrEtl6AZVC39dIocexGh', name: 'Client 9' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzK2MFZAYzOKEmAGgquJTfLUawhvDzeWIsp7d5F', name: 'Client 10' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKAwvhgkm23diFVCauQYGZX7EOvepoDrsmTt0M', name: 'Client 11' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKVQeAK5aSWdCeHAhQbGXFPJMgu30Em1wnxRUt', name: 'Client 12' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKHBwJmT9K17E9sMxUtcbXNFwf3gL6QR58WJhT', name: 'Client 14' },
-              { url: 'https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzKccj1mu5J4XAFx0m6YQiWLHrg3z5GZfKBswbM', name: 'Client 15' }
-            ].map((client, index) => (
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6 items-center">
+            {featuredClients.map((client) => (
               <div
-                key={index}
-                className="bg-white p-6 rounded-lg shadow-md flex items-center justify-center hover:shadow-lg transition-shadow duration-300"
+                key={client.url}
+                className="bg-white p-4 rounded-lg shadow-md flex items-center justify-center min-h-[6rem]"
               >
                 <img
                   src={client.url}
-                  alt={client.name}
-                  className="max-w-full max-h-24 object-contain transition-all duration-300"
+                  alt={client.alt}
+                  className="max-w-full max-h-20 w-auto h-auto object-contain"
+                  width={160}
+                  height={80}
                   loading="lazy"
                 />
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* CTA band */}
+      <section className="bg-indigo-700 py-14" aria-labelledby="cta-heading">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 id="cta-heading" className="text-2xl sm:text-3xl font-bold text-white">
+            Ready to equip your facility?
+          </h2>
+          <p className="mt-3 text-indigo-100 max-w-xl mx-auto">
+            Speak with our team about products, training, and support for your healthcare institution.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+            <Link
+              to="/contact?service=medical"
+              className="inline-flex items-center px-6 py-3 rounded-md bg-white text-indigo-700 font-semibold hover:bg-indigo-50 transition-colors"
+            >
+              Request a quote
+            </Link>
+            <a
+              href="tel:+6327906520"
+              className="inline-flex items-center text-white hover:text-indigo-100 font-medium"
+            >
+              <Phone className="h-5 w-5 mr-2" aria-hidden />
+              +63 2 7906 0520
+            </a>
+            <a
+              href="mailto:info@tsmc.ph"
+              className="inline-flex items-center text-white hover:text-indigo-100 font-medium"
+            >
+              <Mail className="h-5 w-5 mr-2" aria-hidden />
+              info@tsmc.ph
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

@@ -966,3 +966,7 @@ export const products = [
     }
   }
 ];
+
+export const productCategories = Array.from(
+  new Set(products.map((p) => p.category))
+).sort();

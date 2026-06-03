@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, MessageSquare } from 'lucide-react';
+import { BRAND } from '../data/brand';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -51,11 +52,11 @@ const Navbar = () => {
               aria-label="Home"
             >
               <img
-                src="https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzK70xwvWBSNsqOeLk5coblmpRAZg4t8K6yrT1X"
-                alt="TSMC Logo"
+                src={BRAND.logoUrl}
+                alt={`${BRAND.tradeName} logo`}
                 className="h-8 w-auto object-contain transform transition-transform duration-300 group-hover:scale-105"
-                width="32"
-                height="32"
+                width={32}
+                height={32}
               />
               {location.pathname === '/' && (
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 scale-x-100 transition-transform origin-left" />
@@ -68,6 +69,7 @@ const Navbar = () => {
             {[
               { path: '/about', label: 'About Us' },
               { path: '/tsmc', label: 'Products' },
+              { path: '/news', label: 'News' },
             ].map(({ path, label }) => (
               <Link
                 key={path}
@@ -129,6 +131,7 @@ const Navbar = () => {
           {[
             { path: '/about', label: 'About Us' },
             { path: '/tsmc', label: 'Products' },
+            { path: '/news', label: 'News' },
           ].map(({ path, label }) => (
             <Link
               key={path}

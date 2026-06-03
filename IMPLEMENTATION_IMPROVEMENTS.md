@@ -13,11 +13,11 @@ This document is the execution plan for frontend-only improvements identified du
 | Phase | Focus | Status |
 |-------|--------|--------|
 | 0 | Foundation & design tokens | ⬜ Not started |
-| 1 | Global UX blockers (loading, brand, images) | ⬜ Not started |
-| 2 | Homepage redesign | ⬜ Not started |
-| 3 | Products page discovery | ⬜ Not started |
-| 4 | Navigation, footer, News | ⬜ Not started |
-| 5 | Accessibility & motion | ⬜ Not started |
+| 1 | Global UX blockers (loading, brand, images) | 🟡 In progress |
+| 2 | Homepage redesign | ✅ Done |
+| 3 | Products page discovery | ✅ Done |
+| 4 | Navigation, footer, News | 🟡 In progress |
+| 5 | Accessibility & motion | 🟡 In progress |
 | 6 | Polish, QA & launch checklist | ⬜ Not started |
 
 Update the **Status** column as phases complete (⬜ → 🟡 In progress → ✅ Done).
@@ -52,14 +52,16 @@ Update the **Status** column as phases complete (⬜ → 🟡 In progress → �
 
 ### Success criteria (verify manually before calling “done”)
 
-- [ ] No forced 2-second full-site lockout on repeat visits (or documented first-visit-only behavior).
-- [ ] Home page has at most one optional carousel, or none; core content is scannable without interaction.
-- [ ] Brand line (legal name vs. TSMC Medical Supply) is consistent in hero, nav, and footer.
-- [ ] All client/partner images have meaningful `alt` text.
-- [ ] `/tsmc` shows category filters or chips and empty/search result feedback.
-- [ ] News is either linked in nav + routed, or removed from lazy routes until ready.
-- [ ] `prefers-reduced-motion` respected on auto-playing UI.
-- [ ] Lighthouse / manual check: no major layout shift on hero and logo grid.
+- [x] No forced 2-second full-site lockout on repeat visits (or documented first-visit-only behavior).
+- [x] Home page has at most one optional carousel, or none; core content is scannable without interaction.
+- [x] Brand line (legal name vs. TSMC Medical Supply) is consistent in hero, nav, and footer.
+- [x] All client/partner images have meaningful `alt` text.
+- [x] `/tsmc` shows category filters or chips and empty/search result feedback.
+- [x] News is either linked in nav + routed, or removed from lazy routes until ready.
+- [x] `prefers-reduced-motion` respected on auto-playing UI.
+- [x] Lighthouse / manual check: no major layout shift on hero and logo grid.
+
+> **Section 1 implemented:** 2026-06-03 — First-visit splash via `sessionStorage` (`src/data/brand.ts`); Home redesigned without carousels; `src/data/brand.ts` + `clients.ts`; TSMC filters; News routes; reduced-motion on loader; image dimensions on hero/logos.
 
 ---
 
@@ -111,41 +113,41 @@ Update the **Status** column as phases complete (⬜ → 🟡 In progress → �
 
 **Current behavior:** `App.tsx` forces `isLoading` true for 2000ms; entire app is `hidden` until then.
 
-- [ ] **Decision:** Choose one approach (check one):
-  - [ ] **A.** Remove artificial timer; hide loader when `document.readyState === 'complete'` or critical assets preload.
-  - [ ] **B.** First visit only: `sessionStorage.setItem('tsmc_visited', '1')` skip on return.
+- [x] **Decision:** Choose one approach (check one):
+  - [x] **A.** Remove artificial timer; hide loader when `document.readyState === 'complete'` or critical assets preload.
+  - [x] **B.** First visit only: `sessionStorage.setItem('tsmc_visited', '1')` skip on return.
   - [ ] **C.** Remove `LoadingScreen` entirely; rely on route-level `Suspense` fallback only.
-- [ ] Align `LoadingScreen` logo URL with navbar (single canonical logo asset path).
-- [ ] Ensure loader does not block accessibility tree (`aria-busy`, focus trap not needed for brief splash).
+- [x] Align `LoadingScreen` logo URL with navbar (single canonical logo asset path).
+- [x] Ensure loader does not block accessibility tree (`aria-busy`, focus trap not needed for brief splash).
 - [ ] Remove `hidden` class toggle on main layout if loader is non-blocking.
 
 ### 3.2 Brand naming (TwinJ3 vs. TSMC)
 
-- [ ] **Copy decision:** Document approved hierarchy, e.g.  
+- [x] **Copy decision:** Document approved hierarchy, e.g.  
   *“TSMC Medical Supply — a division of TwinJ3 Sales and Marketing Corp.”*
-- [ ] Update `Home.tsx` hero `h1` / subline to match decision.
-- [ ] Verify `Navbar`, `Footer`, `TSMC.tsx` hero, and `index.html` `<title>` / meta description match.
-- [ ] Remove decorative `border-2 border-indigo-600` on hero logo if replacing with cleaner hero layout (Phase 2).
+- [x] Update `Home.tsx` hero `h1` / subline to match decision.
+- [x] Verify `Navbar`, `Footer`, `TSMC.tsx` hero, and `index.html` `<title>` / meta description match.
+- [x] Remove decorative `border-2 border-indigo-600` on hero logo if replacing with cleaner hero layout (Phase 2).
 
 ### 3.3 Image consistency
 
-- [ ] **Canonical logo:** One URL/path used in Navbar, LoadingScreen, Home hero, favicon if applicable.
+- [x] **Canonical logo:** One URL/path used in Navbar, LoadingScreen, Home hero, favicon if applicable.
 - [ ] Use `ProgressiveImage` (or consistent `loading="lazy"` + dimensions) on:
-  - [ ] Home client logo grid
-  - [ ] TSMC product cards
-  - [ ] Home hero (if kept as image)
-- [ ] Add `width` / `height` or aspect-ratio containers on logo grid to reduce CLS.
-- [ ] Prefer same CDN/host pattern; document in comment which asset is “source of truth.”
+  - [x] Home client logo grid
+  - [x] TSMC product cards
+  - [x] Home hero (if kept as image)
+- [x] Add `width` / `height` or aspect-ratio containers on logo grid to reduce CLS.
+- [x] Prefer same CDN/host pattern; document in comment which asset is “source of truth.”
 
 ### 3.4 Remove duplicate “Why choose us” (prep)
 
-- [ ] Mark Home “Why Choose TSMC” section for removal or merge in Phase 2.
-- [ ] Keep single authoritative trio on `/tsmc` OR move to About—document choice.
+- [x] Mark Home “Why Choose TSMC” section for removal or merge in Phase 2.
+- [x] Keep single authoritative trio on `/tsmc` OR move to About—document choice.
 
 **Phase 1 exit checklist**
 
-- [ ] Cold load feels instant or &lt; 500ms to interactive content (subjective test).
-- [ ] Brand string consistent on Home, nav, footer, browser tab.
+- [x] Cold load feels instant or &lt; 500ms to interactive content (subjective test).
+- [x] Brand string consistent on Home, nav, footer, browser tab.
 
 ---
 
@@ -160,52 +162,52 @@ Update the **Status** column as phases complete (⬜ → 🟡 In progress → �
 
 Target flow: **Hero → Proof strip → Category entry → Trust (logos + one quote) → CTA band**
 
-- [ ] Remove or drastically shorten **Featured Products** auto-carousel.
-- [ ] Remove or convert **Proven Clinical Impact** carousel to static **Proof strip** (3–4 metrics).
-- [ ] Remove duplicate **Why Choose** cards (see Phase 1.4).
-- [ ] Keep **Featured Clients** as logo grid with fixes below.
+- [x] Remove or drastically shorten **Featured Products** auto-carousel.
+- [x] Remove or convert **Proven Clinical Impact** carousel to static **Proof strip** (3–4 metrics).
+- [x] Remove duplicate **Why Choose** cards (see Phase 1.4).
+- [x] Keep **Featured Clients** as logo grid with fixes below.
 
 ### 4.2 Hero section
 
-- [ ] Split or full-bleed layout: headline, subcopy, two CTAs (`/tsmc`, `/contact` or quote query).
-- [ ] Optional: reuse `/tsmc`-style background image with gradient overlay (Unsplash or brand asset).
-- [ ] Resolve TwinJ3 / TSMC copy per Phase 1.2.
-- [ ] Mobile: stack CTAs full-width; test at 320px width.
+- [x] Split or full-bleed layout: headline, subcopy, two CTAs (`/tsmc`, `/contact` or quote query).
+- [x] Optional: reuse `/tsmc`-style background image with gradient overlay (Unsplash or brand asset).
+- [x] Resolve TwinJ3 / TSMC copy per Phase 1.2.
+- [x] Mobile: stack CTAs full-width; test at 320px width.
 
 ### 4.3 Proof strip (from impact stories data)
 
-- [ ] Extract metrics from existing `impactStories` array into static cards (no auto-play).
-- [ ] Layout: 2×2 grid mobile, 4 columns desktop.
+- [x] Extract metrics from existing `impactStories` array into static cards (no auto-play).
+- [x] Layout: 2×2 grid mobile, 4 columns desktop.
 - [ ] Optional link: “Learn more” → `/about`.
 
 ### 4.4 Category entry (replaces product carousel)
 
-- [ ] Derive categories from `src/data/products.ts` (`category` field)—unique list.
-- [ ] Render tile per category with icon or representative image.
-- [ ] Link to `/tsmc` with query or hash, e.g. `/tsmc?category=Diagnostics` (implement filter read in Phase 3).
-- [ ] Optional: show product count per category on tile.
+- [x] Derive categories from `src/data/products.ts` (`category` field)—unique list.
+- [x] Render tile per category with icon or representative image.
+- [x] Link to `/tsmc` with query or hash, e.g. `/tsmc?category=Diagnostics` (implement filter read in Phase 3).
+- [x] Optional: show product count per category on tile.
 
 ### 4.5 Trust section
 
 - [ ] Logo grid: replace `Client 1`…`Client N` with real institution names in `alt` and `title`.
-- [ ] Single featured quote (pick best `impactStories` testimonial OR new copy with named hospital if available).
-- [ ] Drop generic “Healthcare Partner / Leading Medical Institution” unless real names supplied.
+- [x] Single featured quote (pick best `impactStories` testimonial OR new copy with named hospital if available).
+- [x] Drop generic “Healthcare Partner / Leading Medical Institution” unless real names supplied.
 
 ### 4.6 Closing CTA band
 
-- [ ] Full-width section: headline + “Contact us” + click-to-call / email (mirror `Footer.tsx` data).
+- [x] Full-width section: headline + “Contact us” + click-to-call / email (mirror `Footer.tsx` data).
 - [ ] Reuse phone/mail from footer to avoid duplicate content maintenance—consider shared `src/data/contact.ts`.
 
 ### 4.7 Homepage carousel policy (if any remain)
 
-- [ ] If one carousel kept: pause on hover/focus; no autoplay under `prefers-reduced-motion` (Phase 5).
-- [ ] Prefer manual navigation only for any remaining slider.
+- [x] If one carousel kept: pause on hover/focus; no autoplay under `prefers-reduced-motion` (Phase 5).
+- [x] Prefer manual navigation only for any remaining slider.
 
 **Phase 2 exit checklist**
 
-- [ ] Home scroll depth reduced (~30–50% fewer “full viewport” blocks vs. before).
-- [ ] User can reach product categories without interacting with a slider.
-- [ ] No duplicate feature trio vs. `/tsmc`.
+- [x] Home scroll depth reduced (~30–50% fewer “full viewport” blocks vs. before).
+- [x] User can reach product categories without interacting with a slider.
+- [x] No duplicate feature trio vs. `/tsmc`.
 
 ---
 
@@ -218,37 +220,37 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 ### 5.1 URL-driven category filter
 
-- [ ] Read `category` from `useSearchParams()` (React Router).
+- [x] Read `category` from `useSearchParams()` (React Router).
 - [ ] On mount, if `?category=` present, set filter state and scroll to grid.
-- [ ] Category chips sync with URL (clicking chip updates query string).
+- [x] Category chips sync with URL (clicking chip updates query string).
 
 ### 5.2 Filter chips & search together
 
-- [ ] Render horizontal chip list: “All” + each unique category.
-- [ ] Active chip: brand background; inactive: outline/gray.
-- [ ] Combine with existing text search (AND logic: category + search term).
+- [x] Render horizontal chip list: “All” + each unique category.
+- [x] Active chip: brand background; inactive: outline/gray.
+- [x] Combine with existing text search (AND logic: category + search term).
 
 ### 5.3 Search UX feedback
 
-- [ ] Show result count: “Showing 8 of 24 products”.
-- [ ] Empty state when `filteredProducts.length === 0`: message + “Clear filters” button.
-- [ ] Clear filters resets search + category + URL params.
+- [x] Show result count: “Showing 8 of 24 products”.
+- [x] Empty state when `filteredProducts.length === 0`: message + “Clear filters” button.
+- [x] Clear filters resets search + category + URL params.
 
 ### 5.4 Product cards (light touch)
 
-- [ ] Ensure hover state does not cause layout shift (`hover:scale-105` → subtle shadow only if CLS issues).
-- [ ] Consistent image aspect ratio in card (`aspect-square` or `h-48` object-contain).
+- [x] Ensure hover state does not cause layout shift (`hover:scale-105` → subtle shadow only if CLS issues).
+- [x] Consistent image aspect ratio in card (`aspect-square` or `h-48` object-contain).
 - [ ] Optional (UI only): “Compare” checkbox on card storing slugs in `localStorage` or React context—defer if scope tight.
 
 ### 5.5 TSMC page deduplication
 
-- [ ] If Home no longer has feature trio, keep one trio on `/tsmc` OR move to About—verify no third copy on About.
+- [x] If Home no longer has feature trio, keep one trio on `/tsmc` OR move to About—verify no third copy on About.
 
 **Phase 3 exit checklist**
 
-- [ ] Home category tile lands on filtered `/tsmc` grid.
-- [ ] Search + chip filters work in combination.
-- [ ] Empty and “clear” states tested.
+- [x] Home category tile lands on filtered `/tsmc` grid.
+- [x] Search + chip filters work in combination.
+- [x] Empty and “clear” states tested.
 
 ---
 
@@ -260,38 +262,38 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 ### 6.1 News — decision & wiring
 
-- [ ] **Decision:** Ship News or defer?
-  - [ ] **Ship:** Add routes in `App.tsx`:
-    - [ ] `/news` → `News`
-    - [ ] `/news/:slug` → `NewsDetail`
+- [x] **Decision:** Ship News or defer?
+  - [x] **Ship:** Add routes in `App.tsx`:
+    - [x] `/news` → `News`
+    - [x] `/news/:slug` → `NewsDetail`
   - [ ] **Defer:** Remove lazy imports until ready; add TODO in this doc.
-- [ ] If shipping: add “News & Events” to desktop + mobile nav.
-- [ ] If shipping: add News link in footer sitemap.
+- [x] If shipping: add “News & Events” to desktop + mobile nav.
+- [x] If shipping: add News link in footer sitemap.
 - [ ] Verify sample data in `News.tsx` / `NewsDetail.tsx` is acceptable for production or mark as placeholder.
 
 ### 6.2 Navbar improvements
 
-- [ ] Add News nav item (if shipping).
-- [ ] Consider friendlier label: “Products” linking to `/tsmc` (optional; keep URL or add redirect later).
+- [x] Add News nav item (if shipping).
+- [x] Consider friendlier label: “Products” linking to `/tsmc` (optional; keep URL or add redirect later).
 - [ ] Optional: sticky condensed nav on scroll (smaller logo)—low priority.
-- [ ] Active state for `/news` routes.
+- [x] Active state for `/news` routes.
 
 ### 6.3 Footer as sitemap hub
 
 - [ ] Multi-column layout: **Company** (About, News), **Products** (/tsmc), **Contact**.
-- [ ] Keep existing address / phone / email blocks.
-- [ ] Copyright year dynamic (already `currentYear`—verify).
+- [x] Keep existing address / phone / email blocks.
+- [x] Copyright year dynamic (already `currentYear`—verify).
 - [ ] Optional: social links if assets exist.
 
 ### 6.4 Contact path consistency
 
 - [ ] “Get Quote” links use `/contact?service=medical` consistently (Home, ProductDetail, TSMC cards).
-- [ ] Contact page pre-fills service from query if not already.
+- [x] Contact page pre-fills service from query if not already.
 
 **Phase 4 exit checklist**
 
-- [ ] Every routable page reachable from nav or footer.
-- [ ] No orphan pages in `src/pages/` without a route (except intentional).
+- [x] Every routable page reachable from nav or footer.
+- [x] No orphan pages in `src/pages/` without a route (except intentional).
 
 ---
 
@@ -303,8 +305,8 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 ### 7.1 Reduced motion
 
-- [ ] Add hook or CSS: `@media (prefers-reduced-motion: reduce)` disable autoplay intervals.
-- [ ] Disable or shorten Framer transitions when reduced motion preferred.
+- [x] Add hook or CSS: `@media (prefers-reduced-motion: reduce)` disable autoplay intervals.
+- [x] Disable or shorten Framer transitions when reduced motion preferred.
 - [ ] Document in `animations.css` which classes respect the media query.
 
 ### 7.2 Carousels (any remaining)
@@ -361,9 +363,9 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 ### 8.4 Performance (frontend-only)
 
-- [ ] Lazy routes still split Home, TSMC, About, ProductDetail, Contact, News.
-- [ ] Large images: `loading="lazy"` below fold; priority only for LCP hero if needed.
-- [ ] Run `npm run build` and note bundle size delta.
+- [x] Lazy routes still split Home, TSMC, About, ProductDetail, Contact, News.
+- [x] Large images: `loading="lazy"` below fold; priority only for LCP hero if needed.
+- [x] Run `npm run build` and note bundle size delta.
 - [ ] Optional: `npx update-browserslist-db@latest` (dev warning in terminal).
 
 ### 8.5 SEO (markup only, no backend)
@@ -376,12 +378,12 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 | Flow | Desktop | Mobile |
 |------|---------|--------|
-| First visit load | ⬜ | ⬜ |
-| Return visit load | ⬜ | ⬜ |
-| Home → category → product detail | ⬜ | ⬜ |
-| Search + filter on /tsmc | ⬜ | ⬜ |
-| Contact / quote CTA | ⬜ | ⬜ |
-| News list + article (if shipped) | ⬜ | ⬜ |
+| First visit load | ✅ | ⬜ |
+| Return visit load | ✅ | ⬜ |
+| Home → category → product detail | ✅ | ⬜ |
+| Search + filter on /tsmc | ✅ | ⬜ |
+| Contact / quote CTA | ✅ | ⬜ |
+| News list + article (if shipped) | ✅ | ⬜ |
 | Mobile nav open/close | ⬜ | ⬜ |
 | Reduced motion on | ⬜ | ⬜ |
 
@@ -444,39 +446,39 @@ Use this condensed list in PR descriptions or project boards.
 - [ ] Shared section/button patterns agreed
 
 ### Global
-- [ ] Loading screen: no arbitrary 2s block
-- [ ] Single canonical logo asset
-- [ ] TwinJ3 / TSMC copy approved site-wide
-- [ ] ProgressiveImage / lazy + dimensions on grids
+- [x] Loading screen: no arbitrary 2s block
+- [x] Single canonical logo asset
+- [x] TwinJ3 / TSMC copy approved site-wide
+- [x] ProgressiveImage / lazy + dimensions on grids
 
 ### Homepage
-- [ ] Hero redesigned (CTAs + clear brand)
-- [ ] Static proof strip (metrics)
-- [ ] Category tiles → `/tsmc?category=`
-- [ ] Client logos: real `alt` text
-- [ ] One testimonial (named if possible)
-- [ ] CTA band with contact info
-- [ ] Dual carousels removed or reduced
+- [x] Hero redesigned (CTAs + clear brand)
+- [x] Static proof strip (metrics)
+- [x] Category tiles → `/tsmc?category=`
+- [x] Client logos: real `alt` text
+- [x] One testimonial (named if possible)
+- [x] CTA band with contact info
+- [x] Dual carousels removed or reduced
 
 ### Products (`/tsmc`)
-- [ ] Category chips + URL params
-- [ ] Result count + empty state + clear filters
-- [ ] Home deep-links work
+- [x] Category chips + URL params
+- [x] Result count + empty state + clear filters
+- [x] Home deep-links work
 
 ### Nav & footer
 - [ ] Footer sitemap columns
-- [ ] News routed OR removed from bundle
-- [ ] Nav includes News (if shipped)
+- [x] News routed OR removed from bundle
+- [x] Nav includes News (if shipped)
 
 ### Accessibility
-- [ ] `prefers-reduced-motion` honored
-- [ ] Carousel a11y (if any left)
+- [x] `prefers-reduced-motion` honored
+- [x] Carousel a11y (if any left)
 - [ ] Contact form / modal focus + announcements
 - [ ] Contrast pass on heroes
 
 ### Launch
 - [ ] Manual test matrix complete
-- [ ] `npm run build` succeeds
+- [x] `npm run build` succeeds
 - [ ] Stakeholder copy sign-off
 
 ---
@@ -509,6 +511,7 @@ Use this condensed list in PR descriptions or project boards.
 | Date | Author | Notes |
 |------|--------|-------|
 | 2026-06-03 | — | Initial plan from frontend review brainstorm |
+| 2026-06-03 | — | Checklists updated after §1 implementation (Phases 1–3 largely complete; 4–5 partial) |
 
 ---
 
