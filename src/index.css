@@ -1,3 +1,72 @@
+@import "./styles/mobile.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 
+ * TSMC Medical Supply Design System Tokens
+ * 
+ * 1. Typography Hierarchy
+ *    - Headings (h1-h6): Outfit font
+ *    - Body & Controls: Inter font
+ * 
+ * 2. Color Tokens
+ *    - Brand (Primary): Slate-Blue/Indigo (derived from HSL values)
+ *    - Accent: Premium Medical Teal/Cyan (derived from HSL values)
+ * 
+ * 3. Spacing Rhythm
+ *    - Vertical Padding: py-16 or py-20 for large desktop sections, py-10 or py-12 for mobile.
+ *    - Layout container: max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
+ * 
+ * 4. Radius & Shadows
+ *    - Cards & Modals: rounded-xl (12px), shadow-lg
+ *    - Buttons & Inputs: rounded-lg (8px), shadow-sm (standard) or shadow-md (active)
+ */
+
+:root {
+  /* Brand (Primary Slate-Blue/Indigo) HSL values */
+  --color-brand-50: 220 100% 98%;    /* #f0f5ff */
+  --color-brand-100: 220 100% 95%;   /* #e0ebff */
+  --color-brand-200: 221 100% 90%;   /* #c7d8ff */
+  --color-brand-300: 221 100% 82%;   /* #a3bfff */
+  --color-brand-400: 221 100% 73%;   /* #759cff */
+  --color-brand-500: 223 96% 63%;    /* #4771fa */
+  --color-brand-600: 228 81% 53%;    /* #254deb (Base Primary) */
+  --color-brand-700: 228 77% 48%;    /* #1c3bd7 (Hover state) */
+  --color-brand-800: 228 77% 39%;    /* #172faf */
+  --color-brand-900: 229 69% 32%;    /* #192c8b */
+  --color-brand-950: 232 68% 20%;    /* #101954 */
+
+  /* Accent (Medical Teal/Cyan) HSL values */
+  --color-accent-50: 180 100% 97%;   /* #f0fdfa */
+  --color-accent-100: 180 100% 90%;  /* #ccfbf1 */
+  --color-accent-200: 180 100% 80%;  /* #99f6e4 */
+  --color-accent-300: 180 100% 65%;  /* #5eead4 */
+  --color-accent-400: 180 100% 48%;  /* #2dd4bf */
+  --color-accent-500: 180 100% 35%;  /* #14b8a6 */
+  --color-accent-600: 180 100% 28%;  /* #0d9488 (Base Accent) */
+  --color-accent-700: 180 100% 23%;  /* #0f766e */
+  --color-accent-800: 180 100% 18%;  /* #115e59 */
+  --color-accent-900: 180 100% 13%;  /* #134e4a */
+  --color-accent-950: 180 100% 8%;   /* #042f2e */
+}
+
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    @apply text-gray-700 bg-gray-50 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+    @apply text-gray-900 font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  /* Reusable Shared Premium Card Component */
+  .ui-card {
+    @apply bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-brand-200;
+  }
+}
