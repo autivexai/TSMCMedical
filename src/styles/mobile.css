@@ -120,8 +120,8 @@
   }
 
   /* Active states for touch feedback */
-  .hover\\:bg-brand-700:active {
-    background-color: hsl(var(--color-brand-700));
+  .hover\\:bg-indigo-700:active {
+    background-color: rgb(67 56 202);
   }
 
   .hover\\:bg-gray-50:active {
@@ -226,15 +226,15 @@
 
 /* Improve tap highlight colors */
 * {
-  -webkit-tap-highlight-color: hsl(var(--color-brand-600) / 0.1);
+  -webkit-tap-highlight-color: rgba(99, 102, 241, 0.1);
 }
 
 a {
-  -webkit-tap-highlight-color: hsl(var(--color-brand-600) / 0.2);
+  -webkit-tap-highlight-color: rgba(99, 102, 241, 0.2);
 }
 
 button {
-  -webkit-tap-highlight-color: hsl(var(--color-brand-600) / 0.15);
+  -webkit-tap-highlight-color: rgba(99, 102, 241, 0.15);
 }
 
 /* Fix for mobile menu z-index issues */

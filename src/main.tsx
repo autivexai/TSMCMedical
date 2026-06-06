@@ -28,7 +28,7 @@ class ErrorBoundary extends Component {
             <p className="text-gray-700 mb-4">We're sorry, but an error occurred while loading the application.</p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-brand-600 text-white px-4 py-2 rounded hover:bg-brand-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
+              className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors"
             >
               Reload Page
             </button>

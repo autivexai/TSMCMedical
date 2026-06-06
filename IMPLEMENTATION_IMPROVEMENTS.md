@@ -221,7 +221,7 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 ### 5.1 URL-driven category filter
 
 - [x] Read `category` from `useSearchParams()` (React Router).
-- [ ] On mount, if `?category=` present, set filter state and scroll to grid.
+- [x] On mount, if `?category=` present, set filter state and scroll to grid.
 - [x] Category chips sync with URL (clicking chip updates query string).
 
 ### 5.2 Filter chips & search together
@@ -269,7 +269,7 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
   - [ ] **Defer:** Remove lazy imports until ready; add TODO in this doc.
 - [x] If shipping: add “News & Events” to desktop + mobile nav.
 - [x] If shipping: add News link in footer sitemap.
-- [ ] Verify sample data in `News.tsx` / `NewsDetail.tsx` is acceptable for production or mark as placeholder.
+- [x] Verify sample data in `News.tsx` / `NewsDetail.tsx` is acceptable for production or mark as placeholder.
 
 ### 6.2 Navbar improvements
 

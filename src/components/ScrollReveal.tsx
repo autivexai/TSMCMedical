@@ -1,65 +1,106 @@
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, type Variants } from 'framer-motion';
+
+/**
+ * ScrollReveal
+ * -----------
+ * Wraps children in a Framer Motion element that animates into view when the
+ * element enters the viewport (`whileInView`). Automatically respects the user's
+ * `prefers-reduced-motion` OS setting via Framer's `useReducedMotion()` hook —
+ * when reduced-motion is preferred the element is rendered at full opacity
+ * instantly, with no translate/scale animation.
+ *
+ * Usage:
+ *   <ScrollReveal>
+ *     <SomeSection />
+ *   </ScrollReveal>
+ *
+ *   <ScrollReveal direction="left" delay={0.2}>
+ *     <Card />
+ *   </ScrollReveal>
+ *
+ * Props:
+ *   children   – Content to reveal.
+ *   direction  – Slide-in direction. 'up' (default) | 'down' | 'left' | 'right' | 'none'
+ *   distance   – Translate distance in pixels (default: 24).
+ *   delay      – Animation start delay in seconds (default: 0).
+ *   duration   – Animation duration in seconds (default: 0.55).
+ *   once       – If true (default), only animates the first time element enters view.
+ *   threshold  – IntersectionObserver threshold (default: 0.15).
+ *   className  – Additional class names forwarded to the wrapper element.
+ *   as         – HTML element to render (default: 'div').
+ */
+
+type Direction = 'up' | 'down' | 'left' | 'right' | 'none';
 
 interface ScrollRevealProps {
   children: React.ReactNode;
-  variant?: 'fade-up' | 'fade-in' | 'scale-in' | 'slide-left' | 'slide-right';
-  duration?: number;
+  direction?: Direction;
+  distance?: number;
   delay?: number;
-  threshold?: number;
+  duration?: number;
   once?: boolean;
+  threshold?: number;
   className?: string;
+  as?: keyof JSX.IntrinsicElements;
+}
+
+function getInitialOffset(direction: Direction, distance: number) {
+  switch (direction) {
+    case 'up':    return { y: distance };
+    case 'down':  return { y: -distance };
+    case 'left':  return { x: distance };
+    case 'right': return { x: -distance };
+    case 'none':  return {};
+  }
 }
 
 export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
-  variant = 'fade-up',
-  duration = 0.5,
+  direction = 'up',
+  distance = 24,
   delay = 0,
-  threshold = 0.1,
+  duration = 0.55,
   once = true,
-  className = '',
+  threshold = 0.15,
+  className,
+  as = 'div',
 }) => {
-  const shouldReduceMotion = useReducedMotion();
+  const reducedMotion = useReducedMotion();
 
-  if (shouldReduceMotion) {
-    return <div className={className}>{children}</div>;
-  }
+  // When the user prefers reduced motion, skip all translate/fade effects and
+  // render content instantly (opacity: 1, no transform).
+  const variants: Variants = reducedMotion
+    ? {
+        hidden: { opacity: 1 },
+        visible: { opacity: 1 },
+      }
+    : {
+        hidden: { opacity: 0, ...getInitialOffset(direction, distance) },
+        visible: {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          transition: {
+            duration,
+            delay,
+            ease: [0.22, 1, 0.36, 1], // custom ease — snappy entrance
+          },
+        },
+      };
 
-  const variants = {
-    'fade-up': {
-      hidden: { opacity: 0, y: 20 },
-      visible: { opacity: 1, y: 0 },
-    },
-    'fade-in': {
-      hidden: { opacity: 0 },
-      visible: { opacity: 1 },
-    },
-    'scale-in': {
-      hidden: { opacity: 0, scale: 0.95 },
-      visible: { opacity: 1, scale: 1 },
-    },
-    'slide-left': {
-      hidden: { opacity: 0, x: -30 },
-      visible: { opacity: 1, x: 0 },
-    },
-    'slide-right': {
-      hidden: { opacity: 0, x: 30 },
-      visible: { opacity: 1, x: 0 },
-    },
-  };
+  const MotionEl = motion[as as keyof typeof motion] as typeof motion.div;
 
   return (
-    <motion.div
+    <MotionEl
+      className={className}
+      variants={variants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once, amount: threshold }}
-      transition={{ duration, delay, ease: [0.4, 0, 0.2, 1] }}
-      variants={variants[variant]}
-      className={className}
     >
       {children}
-    </motion.div>
+    </MotionEl>
   );
 };
 

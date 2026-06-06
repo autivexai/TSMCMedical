@@ -314,7 +314,7 @@ const NewsDetail = () => {
       'industry-news': 'bg-green-100 text-green-800',
       'company-update': 'bg-purple-100 text-purple-800',
       'training': 'bg-orange-100 text-orange-800',
-      'conference': 'bg-brand-100 text-brand-800',
+      'conference': 'bg-indigo-100 text-indigo-800',
       'webinar': 'bg-teal-100 text-teal-800',
       'exhibition': 'bg-pink-100 text-pink-800'
     };
@@ -348,7 +348,7 @@ const NewsDetail = () => {
           <p className="text-gray-600 mb-8">The article you're looking for doesn't exist.</p>
           <Link
             to="/news"
-            className="inline-flex items-center text-brand-600 hover:text-brand-700"
+            className="inline-flex items-center text-indigo-600 hover:text-indigo-700"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
             Back to News & Events
@@ -522,7 +522,7 @@ const NewsDetail = () => {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div
-                        className="bg-brand-600 h-3 rounded-full transition-all duration-300"
+                        className="bg-indigo-600 h-3 rounded-full transition-all duration-300"
                         style={{ width: `${(eventItem.registered / eventItem.capacity) * 100}%` }}
                       ></div>
                     </div>
@@ -533,14 +533,14 @@ const NewsDetail = () => {
                 )}
                 
                 {eventItem.registrationUrl && (
-                  <div className="bg-brand-50 border border-brand-200 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-brand-900 mb-2">Ready to Join?</h3>
-                    <p className="text-brand-700 mb-4">
+                  <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-6">
+                    <h3 className="text-lg font-semibold text-indigo-900 mb-2">Ready to Join?</h3>
+                    <p className="text-indigo-700 mb-4">
                       Don't miss this opportunity to learn about the latest in medical technology.
                     </p>
                     <Link
                       to={eventItem.registrationUrl}
-                      className="inline-flex items-center px-6 py-3 bg-brand-600 text-white rounded-md hover:bg-brand-700 transition-colors font-medium"
+                      className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors font-medium"
                     >
                       Register Now
                     </Link>

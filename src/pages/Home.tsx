@@ -66,7 +66,7 @@ const Home = () => {
               height={160}
             />
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-              <span className="block text-brand-600">{BRAND.tradeName}</span>
+              <span className="block text-indigo-600">{BRAND.tradeName}</span>
             </h1>
             <p className="mt-2 text-sm sm:text-base font-medium text-gray-600">
               {BRAND.heroSubline}
@@ -75,14 +75,14 @@ const Home = () => {
             <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
               <Link
                 to="/tsmc"
-                className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               >
                 View Our Products
                 <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               >
                 <MessageSquare className="mr-2 h-5 w-5" aria-hidden />
                 Contact Us
@@ -93,7 +93,7 @@ const Home = () => {
       </section>
 
       {/* Proof strip — static, scannable */}
-      <section className="bg-brand-600 py-12" aria-labelledby="proof-heading">
+      <section className="bg-indigo-600 py-12" aria-labelledby="proof-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 id="proof-heading" className="sr-only">
             Our impact at a glance
@@ -102,7 +102,7 @@ const Home = () => {
             {proofMetrics.map((item) => (
               <div key={item.label} className="text-center text-white">
                 <div className="text-2xl sm:text-3xl font-bold">{item.value}</div>
-                <div className="mt-1 text-sm sm:text-base text-brand-100">{item.label}</div>
+                <div className="mt-1 text-sm sm:text-base text-indigo-100">{item.label}</div>
               </div>
             ))}
           </div>
@@ -127,17 +127,17 @@ const Home = () => {
                 <Link
                   key={category}
                   to={`/tsmc?category=${encodeURIComponent(category)}`}
-                  className="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:border-brand-300 hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:border-indigo-300 hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
                   <Icon
-                    className="h-10 w-10 text-brand-600 mb-4 group-hover:scale-105 transition-transform"
+                    className="h-10 w-10 text-indigo-600 mb-4 group-hover:scale-105 transition-transform"
                     aria-hidden
                   />
                   <h3 className="text-xl font-semibold text-gray-900">{category}</h3>
                   <p className="mt-2 text-gray-600 text-sm">
                     {categoryCounts[category]} product{categoryCounts[category] !== 1 ? 's' : ''}
                   </p>
-                  <span className="mt-4 inline-flex items-center text-brand-600 font-medium text-sm">
+                  <span className="mt-4 inline-flex items-center text-indigo-600 font-medium text-sm">
                     View products
                     <ArrowRight className="ml-1 h-4 w-4" aria-hidden />
                   </span>
@@ -165,7 +165,7 @@ const Home = () => {
                 key={product.id}
                 className="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden flex flex-col"
               >
-                <div className="h-48 bg-gradient-to-br from-brand-50 to-accent-50/20 flex items-center justify-center p-4">
+                <div className="h-48 bg-gradient-to-br from-indigo-50 to-blue-50 flex items-center justify-center p-4">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -176,7 +176,7 @@ const Home = () => {
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
-                  <span className="text-xs font-semibold text-brand-600 uppercase tracking-wide">
+                  <span className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">
                     {product.category}
                   </span>
                   <h3 className="mt-2 text-lg font-bold text-gray-900">{product.name}</h3>
@@ -185,7 +185,7 @@ const Home = () => {
                   </p>
                   <Link
                     to={`/tsmc/products/${product.slug}`}
-                    className="mt-4 inline-flex items-center text-brand-600 hover:text-brand-700 font-medium text-sm"
+                    className="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium text-sm"
                   >
                     Learn more
                     <ArrowRight className="ml-1 h-4 w-4" aria-hidden />
@@ -197,7 +197,7 @@ const Home = () => {
           <div className="text-center mt-10">
             <Link
               to="/tsmc"
-              className="inline-flex items-center text-brand-600 hover:text-brand-700 font-semibold text-lg"
+              className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-semibold text-lg"
             >
               View all products
               <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
@@ -215,7 +215,7 @@ const Home = () => {
             </h2>
           </div>
           <blockquote className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-gray-200 p-8 text-center">
-            <div className="inline-flex items-center px-3 py-1 bg-accent-100 text-accent-800 rounded-full text-sm font-semibold mb-4">
+            <div className="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-semibold mb-4">
               <Award className="h-4 w-4 mr-2" aria-hidden />
               {featuredQuote.impact}
             </div>
@@ -246,31 +246,31 @@ const Home = () => {
       </section>
 
       {/* CTA band */}
-      <section className="bg-brand-700 py-14" aria-labelledby="cta-heading">
+      <section className="bg-indigo-700 py-14" aria-labelledby="cta-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 id="cta-heading" className="text-2xl sm:text-3xl font-bold text-white">
             Ready to equip your facility?
           </h2>
-          <p className="mt-3 text-brand-100 max-w-xl mx-auto">
+          <p className="mt-3 text-indigo-100 max-w-xl mx-auto">
             Speak with our team about products, training, and support for your healthcare institution.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
             <Link
               to="/contact?service=medical"
-              className="inline-flex items-center px-6 py-3 rounded-md bg-white text-brand-700 font-semibold hover:bg-brand-50 transition-colors"
+              className="inline-flex items-center px-6 py-3 rounded-md bg-white text-indigo-700 font-semibold hover:bg-indigo-50 transition-colors"
             >
               Request a quote
             </Link>
             <a
               href="tel:+6327906520"
-              className="inline-flex items-center text-white hover:text-brand-100 font-medium"
+              className="inline-flex items-center text-white hover:text-indigo-100 font-medium"
             >
               <Phone className="h-5 w-5 mr-2" aria-hidden />
               +63 2 7906 0520
             </a>
             <a
               href="mailto:info@tsmc.ph"
-              className="inline-flex items-center text-white hover:text-brand-100 font-medium"
+              className="inline-flex items-center text-white hover:text-indigo-100 font-medium"
             >
               <Mail className="h-5 w-5 mr-2" aria-hidden />
               info@tsmc.ph

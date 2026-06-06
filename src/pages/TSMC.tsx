@@ -64,15 +64,15 @@ const TSMC = () => {
             height={600}
             aria-hidden
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-900/80 via-brand-800/80 to-brand-700/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/80 via-indigo-800/80 to-indigo-700/80" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl">
               {BRAND.tradeName}
             </h1>
-            <p className="mt-2 text-sm text-brand-200">{BRAND.heroSubline}</p>
-            <p className="mt-3 max-w-md mx-auto text-base text-brand-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            <p className="mt-2 text-sm text-indigo-200">{BRAND.heroSubline}</p>
+            <p className="mt-3 max-w-md mx-auto text-base text-indigo-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
               {BRAND.tagline}
             </p>
           </div>
@@ -83,17 +83,17 @@ const TSMC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <Stethoscope className="h-12 w-12 text-brand-600 mb-4" aria-hidden />
+            <Stethoscope className="h-12 w-12 text-indigo-600 mb-4" aria-hidden />
             <h3 className="text-xl font-semibold mb-2">Quality Equipment</h3>
             <p className="text-gray-600">State-of-the-art medical equipment from trusted manufacturers.</p>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <Heart className="h-12 w-12 text-brand-600 mb-4" aria-hidden />
+            <Heart className="h-12 w-12 text-indigo-600 mb-4" aria-hidden />
             <h3 className="text-xl font-semibold mb-2">Patient Care</h3>
             <p className="text-gray-600">Supporting healthcare professionals in delivering excellent patient care.</p>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <ShieldCheck className="h-12 w-12 text-brand-600 mb-4" aria-hidden />
+            <ShieldCheck className="h-12 w-12 text-indigo-600 mb-4" aria-hidden />
             <h3 className="text-xl font-semibold mb-2">Certified Products</h3>
             <p className="text-gray-600">All products meet or exceed industry standards and certifications.</p>
           </div>
@@ -120,7 +120,7 @@ const TSMC = () => {
                   id="product-search"
                   type="search"
                   placeholder="Search products..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   aria-describedby="product-results-count"
@@ -137,9 +137,9 @@ const TSMC = () => {
               <button
                 type="button"
                 onClick={() => setCategory('')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
                   !activeCategory
-                    ? 'bg-brand-600 text-white'
+                    ? 'bg-indigo-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
                 aria-pressed={!activeCategory}
@@ -151,9 +151,9 @@ const TSMC = () => {
                   key={category}
                   type="button"
                   onClick={() => setCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
                     activeCategory === category
-                      ? 'bg-brand-600 text-white'
+                      ? 'bg-indigo-600 text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                   aria-pressed={activeCategory === category}
@@ -183,7 +183,7 @@ const TSMC = () => {
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="mt-6 inline-flex items-center px-4 py-2 rounded-md bg-brand-600 text-white font-medium hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+                  className="mt-6 inline-flex items-center px-4 py-2 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <X className="h-4 w-4 mr-2" aria-hidden />
                   Clear filters
@@ -206,7 +206,7 @@ const TSMC = () => {
                       height={192}
                       loading="lazy"
                     />
-                    <div className="absolute top-0 right-0 bg-brand-600 text-white px-3 py-1 rounded-bl-lg text-sm">
+                    <div className="absolute top-0 right-0 bg-indigo-600 text-white px-3 py-1 rounded-bl-lg text-sm">
                       {product.category}
                     </div>
                   </div>
@@ -215,7 +215,7 @@ const TSMC = () => {
                     <p className="text-gray-600 mb-4 line-clamp-3">{product.description}</p>
                     <Link
                       to={`/tsmc/products/${product.slug}`}
-                      className="inline-flex items-center text-brand-600 hover:text-brand-700 font-medium"
+                      className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium"
                     >
                       Learn More
                       <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
