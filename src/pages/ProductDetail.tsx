@@ -83,7 +83,7 @@ const ProductDetail = () => {
           <p className="text-gray-600 mb-8">The product you're looking for doesn't exist.</p>
           <Link
             to="/tsmc"
-            className="inline-flex items-center text-indigo-600 hover:text-indigo-700"
+            className="inline-flex items-center text-brand-600 hover:text-brand-700"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
             Back to Products
@@ -193,7 +193,7 @@ const ProductDetail = () => {
                 </>
               )}
             </div>
-            <div className="absolute top-4 right-4 bg-indigo-600 text-white px-4 py-2 rounded-full z-10">
+            <div className="absolute top-4 right-4 bg-brand-600 text-white px-4 py-2 rounded-full z-10">
               {product.category}
             </div>
           </div>
@@ -204,15 +204,15 @@ const ProductDetail = () => {
             
             <div className="space-y-6">
               <div className="flex items-center text-gray-700">
-                <Shield className="h-6 w-6 mr-2 text-indigo-600" />
+                <Shield className="h-6 w-6 mr-2 text-brand-600" />
                 <span>Certified Medical Equipment</span>
               </div>
               <div className="flex items-center text-gray-700">
-                <Clock className="h-6 w-6 mr-2 text-indigo-600" />
+                <Clock className="h-6 w-6 mr-2 text-brand-600" />
                 <span>Fast Shipping Available</span>
               </div>
               <div className="flex items-center text-gray-700">
-                <Settings className="h-6 w-6 mr-2 text-indigo-600" />
+                <Settings className="h-6 w-6 mr-2 text-brand-600" />
                 <span>Technical Support Included</span>
               </div>
             </div>
@@ -220,7 +220,7 @@ const ProductDetail = () => {
             <div className="mt-8">
               <Link
                 to="/contact?service=medical"
-                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300"
+                className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md shadow-lg text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-all duration-300"
               >
                 <MessageSquare className="h-6 w-6 mr-2" />
                 Request Information
@@ -321,7 +321,7 @@ const ProductDetail = () => {
                 onClick={() => setActiveTab(id)}
                 className={`inline-flex items-center px-6 py-3 rounded-lg transition-colors ${
                   activeTab === id
-                    ? 'bg-indigo-600 text-white'
+                    ? 'bg-brand-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
@@ -370,7 +370,7 @@ const ProductDetail = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {product.features?.map((feature, index) => (
                   <div key={index} className="flex items-start">
-                    <Zap className="h-5 w-5 text-indigo-600 mt-1 mr-3 flex-shrink-0" />
+                    <Zap className="h-5 w-5 text-brand-600 mt-1 mr-3 flex-shrink-0" />
                     <span className="text-gray-700">{feature}</span>
                   </div>
                 ))}
@@ -497,7 +497,7 @@ const ProductDetail = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {product.certifications.map((cert, index) => (
                       <div key={index} className="flex items-center bg-gray-50 p-4 rounded-lg">
-                        <Award className="h-5 w-5 text-indigo-600 mr-3" />
+                        <Award className="h-5 w-5 text-brand-600 mr-3" />
                         <span className="text-gray-700">{cert}</span>
                       </div>
                     ))}

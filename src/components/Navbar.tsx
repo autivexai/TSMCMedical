@@ -59,7 +59,7 @@ const Navbar = () => {
                 height={32}
               />
               {location.pathname === '/' && (
-                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 scale-x-100 transition-transform origin-left" />
+                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-600 scale-x-100 transition-transform origin-left" />
               )}
             </Link>
           </div>
@@ -76,18 +76,18 @@ const Navbar = () => {
                 to={path}
                 className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 group ${
                   isActive(path)
-                    ? 'text-indigo-600'
+                    ? 'text-brand-600'
                     : 'text-gray-700 hover:text-gray-900'
                 }`}
               >
                 <span className="relative z-10">{label}</span>
                 <div
-                  className={`absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 transform transition-transform duration-300 origin-left ${
+                  className={`absolute bottom-0 left-0 w-full h-0.5 bg-brand-600 transform transition-transform duration-300 origin-left ${
                     isActive(path) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                   }`}
                 />
                 {isActive(path) && (
-                  <div className="absolute inset-0 bg-indigo-50 rounded-md -z-10 animate-fade-in" />
+                  <div className="absolute inset-0 bg-brand-50 rounded-md -z-10 animate-fade-in" />
                 )}
               </Link>
             ))}
@@ -95,8 +95,8 @@ const Navbar = () => {
             {/* Contact Us Link */}
             <Link
               to="/contact"
-              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-200 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                location.pathname === '/contact' ? 'bg-indigo-700' : ''
+              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-200 bg-brand-600 text-white rounded-md hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 ${
+                location.pathname === '/contact' ? 'bg-brand-700' : ''
               }`}
             >
               <MessageSquare className="hidden sm:inline-block h-4 w-4 mr-1" />
@@ -108,7 +108,7 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-200"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500 transition-colors duration-200"
               aria-expanded={isOpen ? "true" : "false"}
               aria-label="Toggle menu"
             >
@@ -138,7 +138,7 @@ const Navbar = () => {
               to={path}
               className={`block px-3 py-3 rounded-md text-base font-medium transition-all duration-200 ${
                 isActive(path)
-                  ? 'text-indigo-600 bg-indigo-50'
+                  ? 'text-brand-600 bg-brand-50'
                   : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
               }`}
               onClick={() => setIsOpen(false)}
@@ -152,8 +152,8 @@ const Navbar = () => {
             to="/contact"
             className={`flex items-center px-3 py-3 rounded-md text-base font-medium transition-all duration-200 ${
               location.pathname === '/contact'
-                ? 'text-white bg-indigo-600'
-                : 'text-white bg-indigo-500 hover:bg-indigo-600'
+                ? 'text-white bg-brand-600'
+                : 'text-white bg-brand-500 hover:bg-brand-600'
             }`}
             onClick={() => setIsOpen(false)}
           >

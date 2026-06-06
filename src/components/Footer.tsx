@@ -12,10 +12,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-8">
           <Link to="/tsmc" className="group transition-colors duration-200 hover:bg-gray-700/50 p-4 rounded-lg">
             <div className="flex items-center mb-4">
-              <Stethoscope className="h-5 w-5 text-indigo-400 mr-2 transition-colors duration-200 group-hover:text-indigo-300" />
+              <Stethoscope className="h-5 w-5 text-accent-400 mr-2 transition-colors duration-200 group-hover:text-accent-300" />
               <h3 className="text-base sm:text-lg font-semibold">{BRAND.tradeName}</h3>
             </div>
-            <p className="text-sm text-indigo-300/90">{BRAND.heroSubline}</p>
+            <p className="text-sm text-accent-300/90">{BRAND.heroSubline}</p>
             <p className="mt-2 text-sm sm:text-base text-gray-300 group-hover:text-gray-200">{BRAND.tagline}</p>
             <ul className="mt-3 space-y-2 text-xs sm:text-sm text-gray-300 group-hover:text-gray-200">
               <li>• Diagnostic Equipment</li>

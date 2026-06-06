@@ -92,7 +92,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: theme('colors.indigo.600');
+  background-color: theme('colors.brand.600');
   transform-origin: left;
   animation: scale-in 0.3s var(--ease-standard) forwards;
 }

@@ -94,7 +94,7 @@ Update the **Status** column as phases complete (⬜ → 🟡 In progress → �
 
 - [x] Create `src/components/ui/SectionHeading.tsx` (title + subtitle + optional action).
 - [x] Create `src/components/ui/Button.tsx` variants: primary, secondary, ghost (match Contact CTA).
-- [ ] Create `src/components/ScrollReveal.tsx` (Framer `whileInView`) for reuse on About/Home—optional in Phase 2.
+- [x] Create `src/components/ScrollReveal.tsx` (Framer `whileInView`) for reuse on About/Home—optional in Phase 2.
 
 **Phase 0 exit checklist**
 

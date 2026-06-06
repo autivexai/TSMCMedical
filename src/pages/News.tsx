@@ -186,7 +186,7 @@ const News = () => {
       'industry-news': 'bg-green-100 text-green-800',
       'company-update': 'bg-purple-100 text-purple-800',
       'training': 'bg-orange-100 text-orange-800',
-      'conference': 'bg-indigo-100 text-indigo-800',
+      'conference': 'bg-brand-100 text-brand-800',
       'webinar': 'bg-teal-100 text-teal-800',
       'exhibition': 'bg-pink-100 text-pink-800'
     };
@@ -222,7 +222,7 @@ const News = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-indigo-600 to-indigo-800 text-white">
+      <div className="relative bg-gradient-to-r from-brand-600 to-brand-800 text-white">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&q=80&w=2000"
@@ -235,7 +235,7 @@ const News = () => {
             <h1 className="text-4xl font-extrabold sm:text-5xl md:text-6xl">
               News & Events
             </h1>
-            <p className="mt-3 max-w-md mx-auto text-base text-indigo-200 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            <p className="mt-3 max-w-md mx-auto text-base text-brand-200 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
               Stay updated with the latest developments in medical technology and join our upcoming events
             </p>
           </div>
@@ -251,7 +251,7 @@ const News = () => {
                 onClick={() => setActiveTab('news')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
                   activeTab === 'news'
-                    ? 'border-indigo-500 text-indigo-600'
+                    ? 'border-brand-500 text-brand-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -261,7 +261,7 @@ const News = () => {
                 onClick={() => setActiveTab('events')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
                   activeTab === 'events'
-                    ? 'border-indigo-500 text-indigo-600'
+                    ? 'border-brand-500 text-brand-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -281,7 +281,7 @@ const News = () => {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
               >
                 <option value="all">All Categories</option>
                 {activeTab === 'news' ? (
@@ -309,7 +309,7 @@ const News = () => {
                 placeholder={`Search ${activeTab}...`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-64"
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 w-64"
               />
             </div>
           </div>
@@ -362,7 +362,7 @@ const News = () => {
                           <span className="text-sm text-gray-500">By {item.author}</span>
                           <Link
                             to={`/news/${item.id}`}
-                            className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium"
+                            className="inline-flex items-center text-brand-600 hover:text-brand-700 font-medium"
                           >
                             Read More
                             <ArrowRight className="ml-1 h-4 w-4" />
@@ -416,7 +416,7 @@ const News = () => {
                         <span className="text-sm text-gray-500">By {item.author}</span>
                         <Link
                           to={`/news/${item.id}`}
-                          className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium"
+                          className="inline-flex items-center text-brand-600 hover:text-brand-700 font-medium"
                         >
                           Read More
                           <ArrowRight className="ml-1 h-4 w-4" />
@@ -485,7 +485,7 @@ const News = () => {
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-2">
                               <div
-                                className="bg-indigo-600 h-2 rounded-full"
+                                className="bg-brand-600 h-2 rounded-full"
                                 style={{ width: `${(event.registered / event.capacity) * 100}%` }}
                               ></div>
                             </div>
@@ -499,7 +499,7 @@ const News = () => {
                           <div className="flex gap-2">
                             <Link
                               to={`/news/${event.id}`}
-                              className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium"
+                              className="inline-flex items-center text-brand-600 hover:text-brand-700 font-medium"
                             >
                               Learn More
                               <ArrowRight className="ml-1 h-4 w-4" />
@@ -507,7 +507,7 @@ const News = () => {
                             {event.registrationUrl && (
                               <Link
                                 to={event.registrationUrl}
-                                className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+                                className="inline-flex items-center px-4 py-2 bg-brand-600 text-white rounded-md hover:bg-brand-700 transition-colors"
                               >
                                 Register Now
                                 <ExternalLink className="ml-1 h-4 w-4" />
@@ -576,7 +576,7 @@ const News = () => {
                         <div className="flex gap-2">
                           <Link
                             to={`/news/${event.id}`}
-                            className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium text-sm"
+                            className="inline-flex items-center text-brand-600 hover:text-brand-700 font-medium text-sm"
                           >
                             Learn More
                             <ArrowRight className="ml-1 h-3 w-3" />
@@ -584,7 +584,7 @@ const News = () => {
                           {event.registrationUrl && (
                             <Link
                               to={event.registrationUrl}
-                              className="inline-flex items-center px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors text-sm"
+                              className="inline-flex items-center px-3 py-2 bg-brand-600 text-white rounded-md hover:bg-brand-700 transition-colors text-sm"
                             >
                               Register
                               <ExternalLink className="ml-1 h-3 w-3" />
@@ -616,12 +616,12 @@ const News = () => {
       </div>
 
       {/* Newsletter Signup */}
-      <div className="bg-indigo-600 py-16">
+      <div className="bg-brand-600 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-extrabold text-white mb-4">
             Stay Updated
           </h2>
-          <p className="text-xl text-indigo-200 mb-8">
+          <p className="text-xl text-brand-200 mb-8">
             Subscribe to our newsletter for the latest news and event announcements
           </p>
           <div className="max-w-md mx-auto">
@@ -629,9 +629,9 @@ const News = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-l-md border-0 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
+                className="flex-1 px-4 py-3 rounded-l-md border-0 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-brand-600"
               />
-              <button className="px-6 py-3 bg-indigo-800 text-white rounded-r-md hover:bg-indigo-900 transition-colors">
+              <button className="px-6 py-3 bg-brand-800 text-white rounded-r-md hover:bg-brand-900 transition-colors">
                 Subscribe
               </button>
             </div>
