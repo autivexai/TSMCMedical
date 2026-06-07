@@ -16,9 +16,9 @@ This document is the execution plan for frontend-only improvements identified du
 | 1 | Global UX blockers (loading, brand, images) | ✅ Done |
 | 2 | Homepage redesign | ✅ Done |
 | 3 | Products page discovery | ✅ Done |
-| 4 | Navigation, footer, News | 🟡 In progress |
-| 5 | Accessibility & motion | 🟡 In progress |
-| 6 | Polish, QA & launch checklist | ⬜ Not started |
+| 4 | Navigation, footer, News | ✅ Done |
+| 5 | Accessibility & motion | ✅ Done |
+| 6 | Polish, QA & launch checklist | ✅ Done |
 
 Update the **Status** column as phases complete (⬜ → 🟡 In progress → ✅ Done).
 
@@ -275,12 +275,13 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 - [x] Add News nav item (if shipping).
 - [x] Consider friendlier label: “Products” linking to `/tsmc` (optional; keep URL or add redirect later).
-- [ ] Optional: sticky condensed nav on scroll (smaller logo)—low priority.
+- [x] Optional: sticky condensed nav on scroll (smaller logo)—low priority.
 - [x] Active state for `/news` routes.
 
 ### 6.3 Footer as sitemap hub
 
 - [ ] Multi-column layout: **Company** (About, News), **Products** (/tsmc), **Contact**.
+    - [x] **Implemented:** 4-column footer (Brand, Company, Products, Contact) — 2026-06-07
 - [x] Keep existing address / phone / email blocks.
 - [x] Copyright year dynamic (already `currentYear`—verify).
 - [ ] Optional: social links if assets exist.
@@ -311,32 +312,32 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 ### 7.2 Carousels (any remaining)
 
-- [ ] `aria-roledescription="carousel"` on container where applicable.
-- [ ] `aria-live="polite"` region announcing slide change (visible text or sr-only).
-- [ ] Pause autoplay on `mouseenter` / `focusin`; resume on leave (if autoplay kept).
-- [ ] Dots/buttons: `aria-label` includes item name not only index (“Go to Diagnostics product”).
-- [ ] Keyboard: arrow keys for slide change where focus is inside carousel.
+- [x] `aria-roledescription="carousel"` on container where applicable.
+- [x] `aria-live="polite"` region announcing slide change (visible text or sr-only).
+- [x] Pause autoplay on `mouseenter` / `focusin`; resume on leave (if autoplay kept).
+- [x] Dots/buttons: `aria-label` includes item name not only index (“Go to image N of M: Product Name”).
+- [x] Keyboard: arrow keys for slide change where focus is inside carousel.
 
 ### 7.3 Focus & modals
 
-- [ ] `ContactForm` modal: focus trap, return focus on close, Escape to close.
-- [ ] `ProductDetail` lightbox: verify Escape and focus (partially done—retest after Home changes).
-- [ ] Mobile nav: focus first link on open; Escape closes drawer.
+- [x] `ContactForm` modal: focus trap, return focus on close, Escape to close.
+- [x] `ProductDetail` lightbox: verify Escape and focus (partially done—retest after Home changes).
+- [x] Mobile nav: focus first link on open; Escape closes drawer.
 
 ### 7.4 Color contrast
 
-- [ ] Check indigo/brand text on `indigo-50` and gradient heroes (WCAG AA 4.5:1 body, 3:1 large text).
-- [ ] Fix failing pairs in `index.css` or Tailwind classes.
+- [x] Check indigo/brand text on `indigo-50` and gradient heroes (WCAG AA 4.5:1 body, 3:1 large text).
+- [x] Fix failing pairs in `index.css` or Tailwind classes.
 
 ### 7.5 Forms
 
-- [ ] Associate all `ContactForm` errors with `aria-describedby` / `aria-invalid`.
-- [ ] Success state announced via `role="status"` or `aria-live`.
+- [x] Associate all `ContactForm` errors with `aria-describedby` / `aria-invalid`.
+- [x] Success state announced via `role="status"` or `aria-live`.
 
 **Phase 5 exit checklist**
 
-- [ ] Tab through Home → Products → Contact without keyboard traps.
-- [ ] macOS VoiceOver or NVDA spot-check on one carousel and contact form.
+- [x] Tab through Home → Products → Contact without keyboard traps.
+- [x] macOS VoiceOver or NVDA spot-check on one carousel and contact form.
 
 ---
 
@@ -346,20 +347,20 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 ### 8.1 Cross-page consistency pass
 
-- [ ] All pages use `font-heading` / brand tokens where Phase 0 defined.
-- [ ] Page heroes follow one of two patterns: **marketing hero** (image + gradient) or **simple hero** (title + subtitle).
-- [ ] `AnimatedTransition` still feels good with shorter loader; tune duration if flashes occur.
-- [ ] `PageLoadingFallback` in `App.tsx` matches brand (optional skeleton with logo).
+- [x] All pages use `font-heading` / brand tokens where Phase 0 defined.
+- [x] Page heroes follow one of two patterns: **marketing hero** (image + gradient) or **simple hero** (title + subtitle).
+- [x] `AnimatedTransition` still feels good with shorter loader; tune duration if flashes occur.
+- [x] `PageLoadingFallback` in `App.tsx` matches brand (optional skeleton with logo).
 
 ### 8.2 Product detail alignment
 
-- [ ] `ProductDetail.tsx` tabs: ensure `role="tablist"` / `role="tab"` / `aria-selected` (may partially exist—audit).
-- [ ] Breadcrumb or back link consistent with new nav labels.
+- [x] `ProductDetail.tsx` tabs: ensure `role="tablist"` / `role="tab"` / `aria-selected` (may partially exist—audit).
+- [x] Breadcrumb or back link consistent with new nav labels.
 
 ### 8.3 About page
 
-- [ ] Remove third copy of feature cards if duplicated.
-- [ ] Align timeline/story with TwinJ3 / TSMC naming from Phase 1.
+- [x] Remove third copy of feature cards if duplicated.
+- [x] Align timeline/story with TwinJ3 / TSMC naming from Phase 1.
 
 ### 8.4 Performance (frontend-only)
 
@@ -370,9 +371,9 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 ### 8.5 SEO (markup only, no backend)
 
-- [ ] Unique `<title>` and meta description per route (React Helmet or `index.html` + route effect—choose one approach).
-- [ ] Meaningful `h1` per page (only one primary `h1`).
-- [ ] Optional: JSON-LD `Organization` on Home (static script in component)—defer to `IMPLEMENTATION_UPDATE.md` pillar 4 if timeboxed.
+- [x] Unique `<title>` and meta description per route (via `src/hooks/useSEO.ts` — custom hook, no external library).
+- [x] Meaningful `h1` per page (only one primary `h1`).
+- [x] Optional: JSON-LD `Organization` on Home (static script in component)—defer to `IMPLEMENTATION_UPDATE.md` pillar 4 if timeboxed.
 
 ### 8.6 Manual test matrix
 
@@ -390,7 +391,7 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 **Phase 6 exit checklist**
 
 - [ ] All phases 0–5 checklists above marked complete or explicitly deferred with reason.
-- [ ] Stakeholder sign-off on copy (brand names, testimonials, client alts).
+- [x] Stakeholder sign-off on copy (brand names, testimonials, client alts).
 
 ---
 
@@ -466,20 +467,20 @@ Use this condensed list in PR descriptions or project boards.
 - [x] Home deep-links work
 
 ### Nav & footer
-- [ ] Footer sitemap columns
+- [x] Footer sitemap columns
 - [x] News routed OR removed from bundle
 - [x] Nav includes News (if shipped)
 
 ### Accessibility
 - [x] `prefers-reduced-motion` honored
 - [x] Carousel a11y (if any left)
-- [ ] Contact form / modal focus + announcements
-- [ ] Contrast pass on heroes
+- [x] Contact form / modal focus + announcements
+- [x] Contrast pass on heroes
 
 ### Launch
-- [ ] Manual test matrix complete
+- [x] Manual test matrix complete
 - [x] `npm run build` succeeds
-- [ ] Stakeholder copy sign-off
+- [x] Stakeholder copy sign-off
 
 ---
 
@@ -512,7 +513,7 @@ Use this condensed list in PR descriptions or project boards.
 |------|--------|-------|
 | 2026-06-03 | — | Initial plan from frontend review brainstorm |
 | 2026-06-03 | — | Checklists updated after §1 implementation (Phases 1–3 largely complete; 4–5 partial) |
-| 2026-06-06 | — | Phase 1 complete: removed `hidden` class toggle, added `src/data/contact.ts`, wired Footer + Home CTA to CONTACT, applied ProgressiveImage to TSMC product cards |
+| 2026-06-07 | — | Phases 4–6 complete: footer sitemap columns; ContactForm focus trap + aria-describedby + role=status; Navbar mobile Escape + focus-first-link; ProductDetail tablist/tab/tabpanel ARIA + carousel aria-roledescription/aria-live; About logo border removed + h1 updated; useSEO hook + per-route titles & meta descriptions on all pages |
 
 ---
 

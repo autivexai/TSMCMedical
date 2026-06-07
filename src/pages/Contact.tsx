@@ -5,8 +5,14 @@ import { submitContactForm } from '../lib/supabase';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/Button';
 import { SectionHeading } from '../components/ui/SectionHeading';
+import { useSEO } from '../hooks/useSEO';
 
 const Contact = () => {
+  useSEO({
+    title: 'Contact Us — Request a Quote',
+    description: 'Get in touch with TSMC Medical Supply. Request a product quote, ask about medical equipment, or speak with our team of healthcare supply experts.',
+  });
+
   const location = useLocation();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);

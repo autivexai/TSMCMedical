@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight, Filter, Search, Tag, Users, MapPin, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useSEO } from '../hooks/useSEO';
 
 interface NewsItem {
   id: string;
@@ -32,6 +33,11 @@ interface Event {
 }
 
 const News = () => {
+  useSEO({
+    title: 'News & Events',
+    description: 'Stay updated with the latest news, product launches, and upcoming healthcare events from TSMC Medical Supply.',
+  });
+
   const [activeTab, setActiveTab] = useState<'news' | 'events'>('news');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');

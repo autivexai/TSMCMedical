@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, User, Share2, Facebook, Twitter, Linkedin, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useSEO } from '../hooks/useSEO';
 
 interface NewsItem {
   id: string;
@@ -293,6 +294,12 @@ const NewsDetail = () => {
   const newsItem = newsItems.find(item => item.id === id);
   const eventItem = events.find(event => event.id === id);
   const item = newsItem || eventItem;
+
+  // Dynamic SEO
+  useSEO({
+    title: item ? item.title : 'Article Not Found',
+    description: newsItem?.excerpt ?? eventItem?.description,
+  });
 
   useEffect(() => {
     if (topRef.current) {

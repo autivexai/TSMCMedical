@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, MessageSquare } from 'lucide-react';
 import { BRAND } from '../data/brand';
@@ -7,13 +7,15 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const location = useLocation();
   const mobileMenuRef = React.useRef<HTMLDivElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const isActive = (path: string) => {
     if (path === '/' && location.pathname !== '/') return false;
     return location.pathname.startsWith(path);
   };
 
-  // Close mobile menu when clicking outside
+  // Close mobile menu when clicking outside + Escape key; focus first link on open
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
@@ -21,15 +23,32 @@ const Navbar = () => {
       }
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
+      // Focus first nav link after drawer slides in
+      const t = window.setTimeout(() => firstLinkRef.current?.focus(), 60);
+      return () => {
+        clearTimeout(t);
+        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = '';
+      };
     } else {
       document.body.style.overflow = '';
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
   }, [isOpen]);
@@ -107,12 +126,14 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <button
+              ref={menuButtonRef}
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-200"
-              aria-expanded={isOpen ? "true" : "false"}
+              aria-expanded={isOpen}
+              aria-controls="mobile-nav-menu"
               aria-label="Toggle menu"
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">{isOpen ? 'Close main menu' : 'Open main menu'}</span>
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -120,11 +141,13 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Navigation */}
-      <div
+      <nav
+        id="mobile-nav-menu"
         ref={mobileMenuRef}
         className={`md:hidden fixed inset-y-0 right-0 transform w-64 bg-white shadow-xl transition-transform duration-300 ease-in-out z-50 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
+        aria-label="Mobile navigation"
         aria-hidden={!isOpen}
       >
         <div className="pt-20 pb-3 space-y-1 px-4">
@@ -132,21 +155,23 @@ const Navbar = () => {
             { path: '/about', label: 'About Us' },
             { path: '/tsmc', label: 'Products' },
             { path: '/news', label: 'News' },
-          ].map(({ path, label }) => (
+          ].map(({ path, label }, idx) => (
             <Link
               key={path}
               to={path}
+              ref={idx === 0 ? firstLinkRef : undefined}
               className={`block px-3 py-3 rounded-md text-base font-medium transition-all duration-200 ${
                 isActive(path)
                   ? 'text-indigo-600 bg-indigo-50'
                   : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
               }`}
               onClick={() => setIsOpen(false)}
+              tabIndex={isOpen ? 0 : -1}
             >
               {label}
             </Link>
           ))}
-          
+
           {/* Mobile Contact Us Link */}
           <Link
             to="/contact"
@@ -156,12 +181,13 @@ const Navbar = () => {
                 : 'text-white bg-indigo-500 hover:bg-indigo-600'
             }`}
             onClick={() => setIsOpen(false)}
+            tabIndex={isOpen ? 0 : -1}
           >
-            <MessageSquare className="h-5 w-5 mr-2" />
+            <MessageSquare className="h-5 w-5 mr-2" aria-hidden="true" />
             Contact Us
           </Link>
         </div>
-      </div>
+      </nav>
 
       {/* Overlay */}
       {isOpen && (

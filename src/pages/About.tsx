@@ -1,8 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Users, Target, Eye, Award, Globe, Heart, Stethoscope, Building2, Calendar, MapPin } from 'lucide-react';
+import { useSEO } from '../hooks/useSEO';
 
 const About = () => {
+  useSEO({
+    title: 'About Us',
+    description: 'Learn about TSMC Medical Supply — a division of TwinJ3 Sales and Marketing Corp. providing medical equipment and diagnostic tools across the Philippines since 2011.',
+  });
+
   return (
     <div className="bg-gray-50">
       {/* Hero Section */}
@@ -19,13 +25,13 @@ const About = () => {
           <div className="text-center">
             <img
               src="https://udqsfwzjjd.ufs.sh/f/sRbSE3JoMbzK70xwvWBSNsqOeLk5coblmpRAZg4t8K6yrT1X"
-              alt="TSMC Logo"
-              className="h-24 sm:h-32 md:h-36 lg:h-40 w-auto mx-auto mb-8 object-scale-down transition-all duration-300 hover:scale-105 border-2 border-indigo-600 rounded-md"
+              alt="TSMC Medical Supply logo"
+              className="h-24 sm:h-32 md:h-36 lg:h-40 w-auto mx-auto mb-8 object-scale-down transition-all duration-300 hover:scale-105"
               width="160"
               height="160"
             />
             <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-              <span className="block text-indigo-600">About TSMC</span>
+              <span className="block text-indigo-600">About TSMC Medical Supply</span>
             </h1>
             <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
               Your trusted partner in advancing healthcare through innovative medical solutions

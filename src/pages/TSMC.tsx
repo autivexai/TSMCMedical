@@ -5,8 +5,14 @@ import { products, productCategories } from '../data/products';
 import { featuredClients } from '../data/clients';
 import { BRAND } from '../data/brand';
 import { ProgressiveImage } from '../components/ProgressiveImage';
+import { useSEO } from '../hooks/useSEO';
 
 const TSMC = () => {
+  useSEO({
+    title: 'Products — Medical Equipment & Diagnostic Solutions',
+    description: 'Browse TSMC Medical Supply\'s full catalog of diagnostic equipment, laboratory instruments, and healthcare devices. Filter by category and find the right solution for your facility.',
+  });
+
   const topRef = useRef<HTMLDivElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = React.useState('');

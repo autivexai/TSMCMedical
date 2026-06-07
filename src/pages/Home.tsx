@@ -14,6 +14,7 @@ import { BRAND } from '../data/brand';
 import { CONTACT } from '../data/contact';
 import { featuredClients } from '../data/clients';
 import { products, productCategories } from '../data/products';
+import { useSEO } from '../hooks/useSEO';
 
 const proofMetrics = [
   { value: '10,000+', label: 'Diagnostic tests performed monthly' },
@@ -34,6 +35,11 @@ const featuredQuote = {
 };
 
 const Home = () => {
+  useSEO({
+    title: 'TSMC Medical Supply — Medical Equipment & Supplies',
+    description: 'TSMC Medical Supply, a division of TwinJ3 Sales and Marketing Corp., provides diagnostic equipment, laboratory instruments, and medical devices to healthcare professionals across the Philippines.',
+  });
+
   const previewProducts = products.slice(0, 3);
 
   const categoryCounts = productCategories.reduce<Record<string, number>>((acc, cat) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Send, Phone, Mail, CheckCircle } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { submitContactForm } from '../lib/supabase';
@@ -26,6 +26,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
     privacyPolicy: false
   });
 
+  // ── Refs for focus management ─────────────────────────────────────────
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  // Ref to the element that triggered the modal (so we can restore focus on close)
+  const triggerRef = useRef<HTMLElement | null>(null);
+
   // Set service based on current route
   useEffect(() => {
     setFormData(prev => ({ ...prev, service: 'medical' }));
@@ -35,7 +41,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
     if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
     if (!formData.email.trim()) {
@@ -63,7 +69,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
 
       try {
         const result = await submitContactForm(formData);
-        
+
         if (!result.success) {
           throw new Error(result.error as string);
         }
@@ -100,52 +106,102 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       ...prev,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     }));
-    
+
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
-    
+
     if (submitError) {
       setSubmitError(null);
     }
   };
 
-  // Close on escape key
+  // ── Escape to close ───────────────────────────────────────────────────
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };
-    
+
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  // Prevent body scrolling when modal is open
+  // ── Focus trap & restore focus on close ──────────────────────────────
   useEffect(() => {
     if (isOpen) {
+      // Save the element that had focus before the modal opened
+      triggerRef.current = document.activeElement as HTMLElement;
       document.body.style.overflow = 'hidden';
+
+      // Move focus into the dialog after render
+      const t = window.setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+
+      return () => clearTimeout(t);
     } else {
       document.body.style.overflow = '';
+      // Restore focus to the trigger element
+      triggerRef.current?.focus();
     }
-    
     return () => {
       document.body.style.overflow = '';
     };
   }, [isOpen]);
 
+  // ── Focus trap: keep Tab/Shift-Tab inside dialog ──────────────────────
+  useEffect(() => {
+    if (!isOpen || !dialogRef.current) return;
+
+    const getFocusable = () => {
+      const sel = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+      return Array.from(dialogRef.current!.querySelectorAll<HTMLElement>(sel));
+    };
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      const focusable = getFocusable();
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleTab);
+    return () => document.removeEventListener('keydown', handleTab);
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
+  // ── Success screen ────────────────────────────────────────────────────
   if (showSuccess) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="success-message">
-        <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-center animate-fade-in">
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="success-title"
+      >
+        {/* role="status" announces success to screen readers */}
+        <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-center animate-fade-in" role="status">
           <div className="flex flex-col items-center space-y-4">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-              <CheckCircle className="h-10 w-10 text-green-500 animate-scale-in" />
+              <CheckCircle className="h-10 w-10 text-green-500 animate-scale-in" aria-hidden="true" />
             </div>
-            <h2 id="success-message" className="text-2xl font-bold text-gray-900">Thank You!</h2>
+            <h2 id="success-title" className="text-2xl font-bold text-gray-900">Thank You!</h2>
             <p className="text-gray-600">
               We've received your message and will get back to you soon.
             </p>
@@ -155,22 +211,30 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
     );
   }
 
+  // ── Form ──────────────────────────────────────────────────────────────
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="contact-form-title">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="contact-form-title"
+      ref={dialogRef}
+    >
       <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl my-8">
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-lg flex justify-between items-center z-10">
           <h2 id="contact-form-title" className="text-2xl font-bold text-indigo-600">Contact Us</h2>
           <button
+            ref={closeButtonRef}
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-100"
-            aria-label="Close"
+            aria-label="Close contact form"
           >
-            <X className="h-6 w-6" />
+            <X className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
 
         <div className="p-6 overflow-y-auto max-h-[70vh]">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
             {submitError && (
               <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md" role="alert">
                 {submitError}
@@ -194,8 +258,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                     }`}
                     aria-required="true"
                     aria-invalid={!!errors.firstName}
+                    aria-describedby={errors.firstName ? 'firstName-error' : undefined}
+                    autoComplete="given-name"
                   />
-                  {errors.firstName && <p className="mt-1 text-sm text-red-600" role="alert">{errors.firstName}</p>}
+                  {errors.firstName && (
+                    <p id="firstName-error" className="mt-1 text-sm text-red-600" role="alert">{errors.firstName}</p>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
@@ -210,8 +278,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                     }`}
                     aria-required="true"
                     aria-invalid={!!errors.lastName}
+                    aria-describedby={errors.lastName ? 'lastName-error' : undefined}
+                    autoComplete="family-name"
                   />
-                  {errors.lastName && <p className="mt-1 text-sm text-red-600" role="alert">{errors.lastName}</p>}
+                  {errors.lastName && (
+                    <p id="lastName-error" className="mt-1 text-sm text-red-600" role="alert">{errors.lastName}</p>
+                  )}
                 </div>
               </div>
 
@@ -228,8 +300,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                   }`}
                   aria-required="true"
                   aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? 'email-error' : undefined}
+                  autoComplete="email"
                 />
-                {errors.email && <p className="mt-1 text-sm text-red-600" role="alert">{errors.email}</p>}
+                {errors.email && (
+                  <p id="email-error" className="mt-1 text-sm text-red-600" role="alert">{errors.email}</p>
+                )}
               </div>
 
               <div>
@@ -245,8 +321,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                   }`}
                   aria-required="true"
                   aria-invalid={!!errors.companyName}
+                  aria-describedby={errors.companyName ? 'companyName-error' : undefined}
+                  autoComplete="organization"
                 />
-                {errors.companyName && <p className="mt-1 text-sm text-red-600" role="alert">{errors.companyName}</p>}
+                {errors.companyName && (
+                  <p id="companyName-error" className="mt-1 text-sm text-red-600" role="alert">{errors.companyName}</p>
+                )}
               </div>
 
               <div>
@@ -263,8 +343,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                   }`}
                   aria-required="true"
                   aria-invalid={!!errors.phoneNumber}
+                  aria-describedby={errors.phoneNumber ? 'phoneNumber-error' : undefined}
+                  autoComplete="tel"
                 />
-                {errors.phoneNumber && <p className="mt-1 text-sm text-red-600" role="alert">{errors.phoneNumber}</p>}
+                {errors.phoneNumber && (
+                  <p id="phoneNumber-error" className="mt-1 text-sm text-red-600" role="alert">{errors.phoneNumber}</p>
+                )}
               </div>
             </div>
 
@@ -301,7 +385,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                           className="form-radio text-indigo-600 h-5 w-5"
                         />
                         <span className="ml-2 flex items-center text-base">
-                          <Mail className="h-4 w-4 mr-1" />
+                          <Mail className="h-4 w-4 mr-1" aria-hidden="true" />
                           Email
                         </span>
                       </label>
@@ -316,7 +400,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                           className="form-radio text-indigo-600 h-5 w-5"
                         />
                         <span className="ml-2 flex items-center text-base">
-                          <Phone className="h-4 w-4 mr-1" />
+                          <Phone className="h-4 w-4 mr-1" aria-hidden="true" />
                           Phone
                         </span>
                       </label>
@@ -355,13 +439,14 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                   }`}
                   aria-required="true"
                   aria-invalid={!!errors.privacyPolicy}
+                  aria-describedby={errors.privacyPolicy ? 'privacyPolicy-error' : undefined}
                 />
                 <span className="ml-2 text-sm text-gray-600">
                   I agree to TSMC's privacy policy and consent to being contacted about my inquiry. *
                 </span>
               </label>
               {errors.privacyPolicy && (
-                <p className="text-sm text-red-600" role="alert">{errors.privacyPolicy}</p>
+                <p id="privacyPolicy-error" className="text-sm text-red-600" role="alert">{errors.privacyPolicy}</p>
               )}
             </div>
 
@@ -375,7 +460,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
                 }`}
                 aria-busy={isSubmitting}
               >
-                <Send className="h-5 w-5 mr-2" />
+                <Send className="h-5 w-5 mr-2" aria-hidden="true" />
                 {isSubmitting ? 'Submitting...' : 'Submit Inquiry'}
               </button>
             </div>

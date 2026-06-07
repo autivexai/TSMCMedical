@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MessageSquare, Shield, Clock, Settings, ChevronLeft, ChevronRight, AlertTriangle, Microscope, Clipboard, Server, X, Award, Users, Zap } from 'lucide-react';
 import { products } from '../data/products';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSEO } from '../hooks/useSEO';
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -12,9 +13,16 @@ const ProductDetail = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const mainImageBtnRef = useRef<HTMLButtonElement | null>(null);
 
   const product = products.find(p => p.slug === slug);
   const productImages = product?.images || [product?.image || ''];
+
+  // Dynamic SEO based on product data
+  useSEO({
+    title: product ? `${product.name} — ${product.category}` : 'Product Detail',
+    description: product?.description,
+  });
 
   useEffect(() => {
     if (topRef.current) {
@@ -35,10 +43,12 @@ const ProductDetail = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!lightboxOpen) return;
-      
+
       switch (e.key) {
         case 'Escape':
           setLightboxOpen(false);
+          // Return focus to the thumbnail/main image that opened the lightbox
+          mainImageBtnRef.current?.focus();
           break;
         case 'ArrowLeft':
           previousImage();
@@ -142,7 +152,16 @@ const ProductDetail = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="relative">
-            <div className="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-gray-100 relative">
+            {/* Image carousel */}
+            <div
+              className="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden bg-gray-100 relative"
+              aria-roledescription="carousel"
+              aria-label="Product images"
+            >
+              {/* Screen-reader live region announces image changes */}
+              <div aria-live="polite" aria-atomic="true" className="sr-only">
+                Image {currentImageIndex + 1} of {productImages.length}
+              </div>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentImageIndex}
@@ -152,12 +171,18 @@ const ProductDetail = () => {
                   transition={{ duration: 0.3 }}
                   className="relative w-full h-full"
                 >
-                  <img
-                    src={productImages[currentImageIndex]}
-                    alt={`${product.name} - View ${currentImageIndex + 1}`}
-                    className="w-full h-full object-cover cursor-zoom-in transition-transform duration-300 hover:scale-105"
+                  <button
+                    ref={mainImageBtnRef}
+                    className="w-full h-full cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                     onClick={() => setLightboxOpen(true)}
-                  />
+                    aria-label={`Expand image: ${product.name}, view ${currentImageIndex + 1} of ${productImages.length}`}
+                  >
+                    <img
+                      src={productImages[currentImageIndex]}
+                      alt={`${product.name} – view ${currentImageIndex + 1} of ${productImages.length}`}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                  </button>
                 </motion.div>
               </AnimatePresence>
               
@@ -165,28 +190,29 @@ const ProductDetail = () => {
                 <>
                   <button
                     onClick={previousImage}
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-colors z-10"
-                    aria-label="Previous image"
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    aria-label={`Previous image: ${product.name}`}
                   >
-                    <ChevronLeft className="h-6 w-6 text-gray-800" />
+                    <ChevronLeft className="h-6 w-6 text-gray-800" aria-hidden="true" />
                   </button>
                   <button
                     onClick={nextImage}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-colors z-10"
-                    aria-label="Next image"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    aria-label={`Next image: ${product.name}`}
                   >
-                    <ChevronRight className="h-6 w-6 text-gray-800" />
+                    <ChevronRight className="h-6 w-6 text-gray-800" aria-hidden="true" />
                   </button>
-                  
+
                   <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
                     {productImages.map((_, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentImageIndex(index)}
-                        className={`w-2 h-2 rounded-full transition-colors ${
+                        className={`w-2 h-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                           index === currentImageIndex ? 'bg-white' : 'bg-white/50'
                         }`}
-                        aria-label={`Go to image ${index + 1}`}
+                        aria-label={`Go to image ${index + 1} of ${productImages.length}: ${product.name}`}
+                        aria-pressed={index === currentImageIndex}
                       />
                     ))}
                   </div>
@@ -314,10 +340,18 @@ const ProductDetail = () => {
       <div className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Tabs */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <div
+            role="tablist"
+            aria-label="Product information"
+            className="flex flex-wrap justify-center gap-4 mb-12"
+          >
             {getAvailableTabs().map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
+                role="tab"
+                id={`tab-${id}`}
+                aria-selected={activeTab === id}
+                aria-controls={`panel-${id}`}
                 onClick={() => setActiveTab(id)}
                 className={`inline-flex items-center px-6 py-3 rounded-lg transition-colors ${
                   activeTab === id
@@ -325,7 +359,7 @@ const ProductDetail = () => {
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                <Icon className="h-5 w-5 mr-2" />
+                <Icon className="h-5 w-5 mr-2" aria-hidden="true" />
                 {label}
               </button>
             ))}
@@ -334,7 +368,12 @@ const ProductDetail = () => {
           {/* Tab Content */}
           <div className="bg-white rounded-lg shadow-lg p-8">
             {/* Overview Tab */}
-            <div className={activeTab === 'overview' ? 'block' : 'hidden'}>
+            <div
+              id="panel-overview"
+              role="tabpanel"
+              aria-labelledby="tab-overview"
+              className={activeTab === 'overview' ? 'block' : 'hidden'}
+            >
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Product Overview</h2>
               <p className="text-gray-600 mb-8">{product.overview}</p>
 
@@ -365,7 +404,12 @@ const ProductDetail = () => {
             </div>
 
             {/* Features Tab */}
-            <div className={activeTab === 'features' ? 'block' : 'hidden'}>
+            <div
+              id="panel-features"
+              role="tabpanel"
+              aria-labelledby="tab-features"
+              className={activeTab === 'features' ? 'block' : 'hidden'}
+            >
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Features</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {product.features?.map((feature, index) => (
@@ -378,7 +422,12 @@ const ProductDetail = () => {
             </div>
 
             {/* Clinical Information Tab */}
-            <div className={activeTab === 'clinical' ? 'block' : 'hidden'}>
+            <div
+              id="panel-clinical"
+              role="tabpanel"
+              aria-labelledby="tab-clinical"
+              className={activeTab === 'clinical' ? 'block' : 'hidden'}
+            >
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Clinical Information</h2>
               
               {product.clinicalInfo && (
@@ -455,7 +504,12 @@ const ProductDetail = () => {
             </div>
 
             {/* Technical Specifications Tab */}
-            <div className={activeTab === 'specs' ? 'block' : 'hidden'}>
+            <div
+              id="panel-specs"
+              role="tabpanel"
+              aria-labelledby="tab-specs"
+              className={activeTab === 'specs' ? 'block' : 'hidden'}
+            >
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Technical Specifications</h2>
               
               {product.specifications && (
@@ -488,7 +542,12 @@ const ProductDetail = () => {
             </div>
 
             {/* Certifications Tab */}
-            <div className={activeTab === 'certifications' ? 'block' : 'hidden'}>
+            <div
+              id="panel-certifications"
+              role="tabpanel"
+              aria-labelledby="tab-certifications"
+              className={activeTab === 'certifications' ? 'block' : 'hidden'}
+            >
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Certifications & Performance</h2>
               
               {product.certifications && (
