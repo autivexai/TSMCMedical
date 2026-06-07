@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Stethoscope, Mail, Phone, MapPin } from 'lucide-react';
 import { BRAND } from '../data/brand';
+import { CONTACT } from '../data/contact';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -34,15 +35,14 @@ const Footer = () => {
               <div>
                 <h4 className="text-sm font-medium text-white">Address</h4>
                 <a 
-                  href="https://maps.google.com/?q=TSMC+GF+KAVI+Building,+193+E.+Rodriguez+Jr.+Ave.+Bagumbayan+Libis,+Quezon+City+1110+Philippines" 
+                  href={CONTACT.address.mapsHref}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="mt-1 text-sm text-gray-300 hover:text-white transition-colors"
                 >
-                  TSMC GF KAVI Building,<br />
-                  193 E. Rodriguez Jr. Ave.<br />
-                  Bagumbayan Libis,<br />
-                  Quezon City 1110 Philippines
+                  {CONTACT.address.lines.map((line, i) => (
+                    <React.Fragment key={i}>{line}{i < CONTACT.address.lines.length - 1 && <br />}</React.Fragment>
+                  ))}
                 </a>
               </div>
             </div>
@@ -51,10 +51,10 @@ const Footer = () => {
               <div>
                 <h4 className="text-sm font-medium text-white">Phone</h4>
                 <a 
-                  href="tel:+6327906520" 
+                  href={CONTACT.phone.href}
                   className="mt-1 text-sm text-gray-300 hover:text-white transition-colors"
                 >
-                  +63 2 7906 0520
+                  {CONTACT.phone.display}
                 </a>
               </div>
             </div>
@@ -63,10 +63,10 @@ const Footer = () => {
               <div>
                 <h4 className="text-sm font-medium text-white">Email</h4>
                 <a 
-                  href="mailto:info@tsmc.ph" 
+                  href={CONTACT.email.href}
                   className="mt-1 text-sm text-gray-300 hover:text-white transition-colors"
                 >
-                  info@tsmc.ph
+                  {CONTACT.email.display}
                 </a>
               </div>
             </div>

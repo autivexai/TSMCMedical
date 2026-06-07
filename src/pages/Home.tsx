@@ -11,6 +11,7 @@ import {
   Activity,
 } from 'lucide-react';
 import { BRAND } from '../data/brand';
+import { CONTACT } from '../data/contact';
 import { featuredClients } from '../data/clients';
 import { products, productCategories } from '../data/products';
 
@@ -262,18 +263,18 @@ const Home = () => {
               Request a quote
             </Link>
             <a
-              href="tel:+6327906520"
+              href={CONTACT.phone.href}
               className="inline-flex items-center text-white hover:text-indigo-100 font-medium"
             >
               <Phone className="h-5 w-5 mr-2" aria-hidden />
-              +63 2 7906 0520
+              {CONTACT.phone.display}
             </a>
             <a
-              href="mailto:info@tsmc.ph"
+              href={CONTACT.email.href}
               className="inline-flex items-center text-white hover:text-indigo-100 font-medium"
             >
               <Mail className="h-5 w-5 mr-2" aria-hidden />
-              info@tsmc.ph
+              {CONTACT.email.display}
             </a>
           </div>
         </div>

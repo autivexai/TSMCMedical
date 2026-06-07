@@ -4,6 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { products, productCategories } from '../data/products';
 import { featuredClients } from '../data/clients';
 import { BRAND } from '../data/brand';
+import { ProgressiveImage } from '../components/ProgressiveImage';
 
 const TSMC = () => {
   const topRef = useRef<HTMLDivElement>(null);
@@ -198,13 +199,12 @@ const TSMC = () => {
                   className="bg-white rounded-lg shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl"
                 >
                   <div className="relative h-48 bg-gray-100">
-                    <img
+                    <ProgressiveImage
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-contain p-2"
-                      width={400}
-                      height={192}
-                      loading="lazy"
+                      className="h-48"
+                      height="192px"
+                      width="400px"
                     />
                     <div className="absolute top-0 right-0 bg-indigo-600 text-white px-3 py-1 rounded-bl-lg text-sm">
                       {product.category}

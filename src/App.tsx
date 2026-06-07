@@ -82,7 +82,7 @@ function App() {
     <Router>
       <ScrollToTop />
       <LoadingScreen isLoading={isLoading} />
-      <div className={`min-h-screen flex flex-col ${isLoading ? 'hidden' : ''}`}>
+      <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-grow">
           <AnimatedTransition>

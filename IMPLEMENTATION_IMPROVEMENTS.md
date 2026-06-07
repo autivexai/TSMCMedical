@@ -13,7 +13,7 @@ This document is the execution plan for frontend-only improvements identified du
 | Phase | Focus | Status |
 |-------|--------|--------|
 | 0 | Foundation & design tokens | ✅ Done |
-| 1 | Global UX blockers (loading, brand, images) | 🟡 In progress |
+| 1 | Global UX blockers (loading, brand, images) | ✅ Done |
 | 2 | Homepage redesign | ✅ Done |
 | 3 | Products page discovery | ✅ Done |
 | 4 | Navigation, footer, News | 🟡 In progress |
@@ -119,7 +119,7 @@ Update the **Status** column as phases complete (⬜ → 🟡 In progress → �
   - [ ] **C.** Remove `LoadingScreen` entirely; rely on route-level `Suspense` fallback only.
 - [x] Align `LoadingScreen` logo URL with navbar (single canonical logo asset path).
 - [x] Ensure loader does not block accessibility tree (`aria-busy`, focus trap not needed for brief splash).
-- [ ] Remove `hidden` class toggle on main layout if loader is non-blocking.
+- [x] Remove `hidden` class toggle on main layout if loader is non-blocking.
 
 ### 3.2 Brand naming (TwinJ3 vs. TSMC)
 
@@ -132,7 +132,7 @@ Update the **Status** column as phases complete (⬜ → 🟡 In progress → �
 ### 3.3 Image consistency
 
 - [x] **Canonical logo:** One URL/path used in Navbar, LoadingScreen, Home hero, favicon if applicable.
-- [ ] Use `ProgressiveImage` (or consistent `loading="lazy"` + dimensions) on:
+- [x] Use `ProgressiveImage` (or consistent `loading="lazy"` + dimensions) on:
   - [x] Home client logo grid
   - [x] TSMC product cards
   - [x] Home hero (if kept as image)
@@ -189,14 +189,14 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 ### 4.5 Trust section
 
-- [ ] Logo grid: replace `Client 1`…`Client N` with real institution names in `alt` and `title`.
+- [x] Logo grid: replace `Client 1`…`Client N` with real institution names in `alt` and `title`.
 - [x] Single featured quote (pick best `impactStories` testimonial OR new copy with named hospital if available).
 - [x] Drop generic “Healthcare Partner / Leading Medical Institution” unless real names supplied.
 
 ### 4.6 Closing CTA band
 
 - [x] Full-width section: headline + “Contact us” + click-to-call / email (mirror `Footer.tsx` data).
-- [ ] Reuse phone/mail from footer to avoid duplicate content maintenance—consider shared `src/data/contact.ts`.
+- [x] Reuse phone/mail from footer to avoid duplicate content maintenance—consider shared `src/data/contact.ts`.
 
 ### 4.7 Homepage carousel policy (if any remain)
 
@@ -287,7 +287,7 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 ### 6.4 Contact path consistency
 
-- [ ] “Get Quote” links use `/contact?service=medical` consistently (Home, ProductDetail, TSMC cards).
+- [x] “Get Quote” links use `/contact?service=medical` consistently (Home, ProductDetail, TSMC cards).
 - [x] Contact page pre-fills service from query if not already.
 
 **Phase 4 exit checklist**
@@ -307,7 +307,7 @@ Target flow: **Hero → Proof strip → Category entry → Trust (logos + one qu
 
 - [x] Add hook or CSS: `@media (prefers-reduced-motion: reduce)` disable autoplay intervals.
 - [x] Disable or shorten Framer transitions when reduced motion preferred.
-- [ ] Document in `animations.css` which classes respect the media query.
+- [x] Document in `animations.css` which classes respect the media query.
 
 ### 7.2 Carousels (any remaining)
 
@@ -512,6 +512,7 @@ Use this condensed list in PR descriptions or project boards.
 |------|--------|-------|
 | 2026-06-03 | — | Initial plan from frontend review brainstorm |
 | 2026-06-03 | — | Checklists updated after §1 implementation (Phases 1–3 largely complete; 4–5 partial) |
+| 2026-06-06 | — | Phase 1 complete: removed `hidden` class toggle, added `src/data/contact.ts`, wired Footer + Home CTA to CONTACT, applied ProgressiveImage to TSMC product cards |
 
 ---
 
