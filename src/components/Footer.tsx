@@ -117,6 +117,14 @@ const Footer = () => {
           <nav aria-label="Legal links" className="flex flex-wrap justify-center gap-4">
             <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+            <button
+              onClick={() => {
+                throw new Error('This is your first error!');
+              }}
+              className="text-sm text-red-400 hover:text-red-300 transition-colors"
+            >
+              Break the world
+            </button>
           </nav>
         </div>
 
